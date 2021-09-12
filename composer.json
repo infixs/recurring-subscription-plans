@@ -1,0 +1,16 @@
+{
+    "name": "infixs/recurring-subscription-plans",
+    "description": "Wordpress plugin for subscription plan and recurring charges.",
+    "type": "wordpress-plugin",
+    "license": "GPL-3.0-only",
+    "authors": [
+        {
+            "name": "Marcos Gomes Neto",
+            "email": "marcos@infixs.io",
+            "homepage": "https://infixs.io",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
