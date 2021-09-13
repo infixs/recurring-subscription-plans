@@ -25,14 +25,16 @@
 defined( 'ABSPATH' ) || exit;
 
 //Define globals
-define( 'IFX_RSP_PLUGIN_NAME', 'wc-pagarme-pix-payment' );
-define( 'IFX_RSP_PLUGIN_VERSION', '1.3.0' );
-define( 'IFX_RSP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'IFX_RSP_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-define( 'IFX_RSP_BASE_NAME', plugin_basename( __FILE__ ) );
-define( 'IFX_RSP_DIR_NAME', dirname(plugin_basename( __FILE__ )) );
+define( 'INFIXS_RSP_PLUGIN_NAME', 'recurring-subscription-plans' );
+define( 'INFIXS_RSP_PLUGIN_NICE_NAME', 'Recurring Subscription Plans' );
+define( 'INFIXS_RSP_PLUGIN_VERSION', '1.0.0' );
+define( 'INFIXS_RSP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'INFIXS_RSP_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+define( 'INFIXS_RSP_BASE_NAME', plugin_basename( __FILE__ ) );
+define( 'INFIXS_RSP_DIR_NAME', dirname(plugin_basename( __FILE__ )) );
+define( 'INFIXS_RSP_PLUGIN_PREFIX', 'infixs_rsp_' );
 
-require IFX_RSP_PLUGIN_PATH . 'vendor/autoload.php';
+require INFIXS_RSP_PLUGIN_PATH . 'vendor/autoload.php';
 
 /**
  * Global function-holder. Works similar to a singleton's instance().
@@ -41,7 +43,7 @@ require IFX_RSP_PLUGIN_PATH . 'vendor/autoload.php';
  *
  * @return RecurringSubscriptionPlans\Core
  */
-function IFX_RSP() {
+function RecurringSubscriptionPlans() {
 	/**
 	 * @var \RecurringSubscriptionPlans\Core
 	 */
@@ -54,4 +56,4 @@ function IFX_RSP() {
 	return $core;
 }
 
-IFX_RSP();
+RecurringSubscriptionPlans();
