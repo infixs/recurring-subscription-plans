@@ -1,7 +1,7 @@
 </main>
-<footer class="footer" style="border-top: 1px solid #dedede;background-color: #f1f1f1;padding: 12px;font-size: 13px;">
-    <div class="container">
-        <span class="text-muted"></span>
+<footer class="footer bg-gray-100" class="" style="border-top: 1px solid #dedede;padding: 12px;font-size: 13px;">
+    <div class="text-center">
+        <span class="text-gray-600">Teste</span>
     </div>
 </footer>
 <?php
