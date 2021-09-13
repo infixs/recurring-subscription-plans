@@ -30,6 +30,7 @@ define( 'INFIXS_RSP_PLUGIN_NICE_NAME', 'Recurring Subscription Plans' );
 define( 'INFIXS_RSP_PLUGIN_VERSION', '1.0.0' );
 define( 'INFIXS_RSP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'INFIXS_RSP_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+define( 'INFIXS_RSP_TEMPLATE_PATH', plugin_dir_path( __FILE__ ) . 'templates/' );
 define( 'INFIXS_RSP_BASE_NAME', plugin_basename( __FILE__ ) );
 define( 'INFIXS_RSP_DIR_NAME', dirname(plugin_basename( __FILE__ )) );
 define( 'INFIXS_RSP_PLUGIN_PREFIX', 'infixs_rsp_' );

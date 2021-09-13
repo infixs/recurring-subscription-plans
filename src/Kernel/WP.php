@@ -1,12 +1,12 @@
 <?php
-namespace RecurringSubscriptionPlans\WP;
+namespace Infixs;
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * Class to provide WordPress shortcuts.
  */
-class Helper 
+class WP 
 {	
 	/**
 	 * "Queue" WordPress admin notices.
@@ -210,4 +210,9 @@ class Helper
 	 */
 	public static function is_json ( string $string ) : bool
 	{ return is_string( $string ) && is_array( json_decode( $string, true ) ) && ( json_last_error() === JSON_ERROR_NONE ) ? true : false; }
+
+	public static function load_template( $name )
+	{
+		include \INFIXS_RSP_PLUGIN_PATH . 'templates/' . preg_replace( '/\./', '/', $name ) . '.php';
+	}
 }

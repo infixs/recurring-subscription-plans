@@ -1,8 +1,9 @@
 <?php
 namespace RecurringSubscriptionPlans;
 
+use Infixs\WP;
 use RecurringSubscriptionPlans\Database\Migration;
-use RecurringSubscriptionPlans\WP\Helper as WP;
+use RecurringSubscriptionPlans\Providers\RouteServiceProvider;
 
 //Prevent direct file call
 defined( 'ABSPATH' ) || exit;
@@ -74,7 +75,6 @@ class Core {
      * Initialize the plugin public actions.
      */
     public function __construct() {
-		//WP::show_errors();
 		$this->pluginUrl  = \INFIXS_RSP_PLUGIN_URL;
 		$this->pluginPath = \INFIXS_RSP_PLUGIN_PATH;
 		$this->assetsUrl  = $this->pluginUrl . '/assets';
@@ -84,6 +84,19 @@ class Core {
 
         Migration::check_update( $this->pluginVersion );
 
+		RouteServiceProvider::boot();
+
 		WP::add_action('plugins_loaded', $this, 'after_load' );
     }
+
+	/**
+	 * Adter load function
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function after_load()
+	{
+
+	}
 }
