@@ -15,6 +15,6 @@ class SubscriptionController extends Controller
 
     public function load_scripts()
     {
-        wp_enqueue_style( 'tailwind', \INFIXS_RSP_ASSETS_URL . 'tailwind.min.css', [],  \INFIXS_RSP_PLUGIN_VERSION);
+        wp_enqueue_style( 'bootstrap-5', \INFIXS_RSP_ASSETS_URL . 'bootstrap/css/bootstrap.min.css', [],  \INFIXS_RSP_PLUGIN_VERSION);
     }
 }

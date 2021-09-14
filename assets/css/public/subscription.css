@@ -1,0 +1,75 @@
+body{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 100vh;
+    height: auto;
+    background-color: #f7f7f7;
+}
+body main{
+    flex-grow: 1;
+    height: 100%;
+}
+nav.navbar{
+    background-color: #009b88;
+}
+nav.navbar .navbar-nav{
+    margin-left: auto;
+}
+nav.navbar a{
+    color: white;
+}
+footer{
+    border-top: 1px solid #dedede;
+    background-color: #f1f1f1;
+    padding: 12px;
+    font-size: 13px;
+}
+.subscription-card{
+    box-shadow: 0 1px 3px rgb(0 0 0 / 20%);
+    padding: 28px 28px 28px;
+    background: #fff;
+    margin: 1.8em 0;
+}
+.rsp-h3{
+    display: inline-block;
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #606060;
+}
+.subscription-wrap{
+    width: 720px;
+    padding: 2em 0;
+}
+.subscription-wrap form .form-input {
+    position: relative;
+    padding: 12px 0px 5px 0;
+    width: 100%;
+    outline: 0;
+    border: 0;
+    box-shadow: 0 1px 0 0 #e5e5e5;
+    transition: box-shadow 150ms ease-out;
+}
+.subscription-wrap form input {
+    background-color: #fff;
+    border-radius: 0;
+}
+.subscription-wrap form .form-group.focused .form-label {
+    transform: translateY(-125%);
+    font-size: 0.75em;
+}
+.subscription-wrap .form-group {
+    margin-bottom: 1rem;
+}
+.subscription-wrap form .form-label {
+    position: absolute;
+    left: 0;
+    top: 10px;
+    color: #999;
+    background-color: #fff;
+    z-index: 10;
+    transition: transform 150ms ease-out, font-size 150ms ease-out;
+}
+.subscription-wrap form .form-group {
+    position: relative;
+}
