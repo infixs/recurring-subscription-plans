@@ -10,8 +10,9 @@ class Controller
 { 
     private $name;
 
-    public function view( $name )
+    public function view( $name, $vars = [] )
     {
+        $GLOBALS += $vars;
         $this->name = $name;
         WP::add_filter( 'template_include', $this, 'get_template' );
     }

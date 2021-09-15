@@ -52,15 +52,10 @@ jQuery(function($){
     $("input.cep").mask('00000-000', {reverse: false});
     $("input.musclecard").mask('00 00 00000', {reverse: false});
     $("input.confirmcode").mask('00 00', {reverse: false});
-
-    $("#termscheck").on('change', function(){
-        if( $(this).is(':checked') ){
-            $("#send-register").prop('disabled', false);
-        }else{
-            $("#send-register").prop('disabled', true);
-        }
-    });
-    $("#send-register").prop('disabled', true);
+    $("input.date").mask('00/00/0000', {reverse: false});
+    $("input.expire-date").inputmask({regex: "^(0[1-9]|1[0-2])\/[0-9]{4}"});
+    $("input.cvv").inputmask({regex: "^[0-9]{3}[0-9]?$"});
+    $("input.card-number").mask('0000 0000 0000 0000');
 
     $("#subscibe-form").on("submit", function(e){
         e.preventDefault();

@@ -21,7 +21,25 @@ class Route
 
     private $action_instance;
 
+    private $method;
+
     public static function get( String $url, $action = null )
+    {
+        $slug = Str::toSlug($url) . ':get';
+        $instance = static::getInstance( $slug );
+
+        $instance->var_name = Str::urlToName( $url );
+        $instance->url = preg_replace( '/^\//', '', $url );
+
+        $instance->action = $action;
+        $instance->method = 'get';
+
+        WP::add_filter('query_vars', $instance, 'query_vars' );
+
+        return $instance;
+    }
+
+    public static function post( String $url, $action = null )
     {
         $slug = Str::toSlug($url);
         $instance = static::getInstance( $slug );
@@ -30,6 +48,7 @@ class Route
         $instance->url = preg_replace( '/^\//', '', $url );
 
         $instance->action = $action;
+        $instance->method = 'post';
 
         WP::add_filter('query_vars', $instance, 'query_vars' );
 
@@ -59,7 +78,7 @@ class Route
 
     public function parse_request( $wp )
     {
-        if(isset($wp->query_vars[$this->var_name])){
+        if(isset($wp->query_vars[$this->var_name]) && $this->method == Str::lower( $_SERVER['REQUEST_METHOD'] ) ){
             if( is_array( $this->action ) ){
                 $action_instance = new $this->action[0];
                 $this->action_instance = $action_instance;
@@ -69,19 +88,6 @@ class Route
             {
                 call_user_func($this->action);
             }
-        }
-    }
-
-    public function get_template( $template )
-    {
-        if( is_array( $this->action ) ){
-            $action_instance = new $this->action[0];
-            $this->action_instance = $action_instance;
-            call_user_func( [$action_instance, $this->action[1]] );
-        }
-        else
-        {
-            call_user_func($this->action);
         }
     }
 

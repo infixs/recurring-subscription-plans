@@ -7,8 +7,10 @@ defined( 'ABSPATH' ) || exit;
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
 <link rel='stylesheet' id='bootstrap'  href='<?php echo \INFIXS_RSP_ASSETS_URL . 'bootstrap/css/bootstrap.min.css';?>' media='all' />
 <link rel='stylesheet' id='bootstrap'  href='<?php echo \INFIXS_RSP_ASSETS_URL . 'css/public/subscription.css';?>' media='all' />
-<script type='text/javascript' src='<?php echo \INFIXS_RSP_ASSETS_URL . 'js/public/jquery-3.6.0.min.js';?>' id='subscription-js'></script>
-<script type='text/javascript' src='<?php echo \INFIXS_RSP_ASSETS_URL . 'js/public/jquery.mask.js';?>' id='subscription-js'></script>
+<script type='text/javascript' src='<?php echo \INFIXS_RSP_ASSETS_URL . 'bootstrap/js/bootstrap.min.js';?>' id='bootstrap-js'></script>
+<script type='text/javascript' src='<?php echo \INFIXS_RSP_ASSETS_URL . 'js/public/jquery-3.6.0.min.js';?>' id='jquery-js'></script>
+<script type='text/javascript' src='<?php echo \INFIXS_RSP_ASSETS_URL . 'js/public/jquery.mask.js';?>' id='jquery-mask-js'></script>
+<script type='text/javascript' src='<?php echo \INFIXS_RSP_ASSETS_URL . 'js/public/jquery.inputmask.js';?>' id='jquery-input-mask-js'></script>
 <script type='text/javascript' src='<?php echo \INFIXS_RSP_ASSETS_URL . 'js/public/subscription.js';?>' id='subscription-js'></script>
 <?php if( is_admin_bar_showing() ): ?>
 <style>

@@ -40,6 +40,7 @@ footer{
 .subscription-wrap{
     width: 720px;
     padding: 2em 0;
+    color: #3e3e3e;
 }
 .subscription-wrap form .form-input {
     position: relative;
@@ -53,6 +54,7 @@ footer{
 .subscription-wrap form input {
     background-color: #fff;
     border-radius: 0;
+    margin-bottom: 10px;
 }
 .subscription-wrap form .form-group.focused .form-label {
     transform: translateY(-125%);
@@ -72,4 +74,11 @@ footer{
 }
 .subscription-wrap form .form-group {
     position: relative;
+}
+.subscription-wrap form .before-message {
+    font-size: 0.95em;
+}
+.subscription-wrap form .after-message {
+    font-size: 0.80em;
+    color: #999;
 }

@@ -6,10 +6,25 @@ include \INFIXS_RSP_TEMPLATE_PATH . 'front/layout/header.php';
 ?>
 <div class="py-10" id="subscription-content">
     <div class="subscription-wrap mx-auto">
-        <form class="anim" autocomplete="off">
-            <h3 class="rsp-h3 font-bold">Subscribe</h3>
+        <form class="anim" autocomplete="off" method="POST">
+            <h3 class="rsp-h3 font-bold">Registrar</h3>
             <div class="card subscription-card">
-                <div style="display:none;" class="alert alert-danger alert-dismissible fade show" role="alert"><span class="message">' + data.message + '</span><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                <?php if( isset($validate) && !$validate['isValid'] ) : ?>
+                <div class="alert alert-warning alert-dismissible fade show mb-4" role="alert">
+                    <span class="message">
+                        <?php echo $validate['htmlErrors']; ?>
+                    </span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <?php endif; ?>
+                <div class="before-message row mb-5">
+                    <div class="col-md">
+                        <div class="message">
+                        <i class="fa fa-check"></i>
+                        <div class="text">Você está assinando o plano <strong>Nome do Plano</strong> por apenas <strong>R$ 29,90</strong>, cancele a qualquer momento sem custos.</div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -37,8 +52,8 @@ include \INFIXS_RSP_TEMPLATE_PATH . 'front/layout/header.php';
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="form-label" for="email">Nascimento</label>
-                            <input id="email" name="email" class="form-input" type="text" autocomplete="off">
+                            <label class="form-label" for="nasc">Nascimento</label>
+                            <input id="nasc" name="nasc" class="form-input date" type="text" autocomplete="off">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -50,18 +65,18 @@ include \INFIXS_RSP_TEMPLATE_PATH . 'front/layout/header.php';
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label" for="musclepass">Senha</label>
-                            <input type="password" id="musclepass" name="musclepass" class="form-input" autocomplete="new-password">
+                            <input type="password" id="password" name="password" class="form-input" autocomplete="new-password">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label" for="musclepass">Confirmar Senha</label>
-                            <input type="password" id="musclepass" name="musclepass" class="form-input" autocomplete="new-password">
+                            <input type="password" id="password_confirm" name="password_confirm" class="form-input" autocomplete="new-password">
                         </div>
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary" id="send-register" disabled="">Continuar</button>
+            <button type="submit" class="btn btn-primary" id="send-register">Continuar</button>
         </form>
     </div>
 </div>

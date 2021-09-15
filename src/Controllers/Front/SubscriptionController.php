@@ -2,19 +2,37 @@
 namespace RecurringSubscriptionPlans\Controllers\Front;
 
 use Infixs\Controller;
+use Infixs\Support\Validator;
 use Infixs\WP;
 
 class SubscriptionController extends Controller
 {
     public function index()
     {
-        WP::add_action( 'wp_enqueue_scripts', $this, 'load_scripts' );
-
         return $this->view('front.subscription');
     }
 
-    public function load_scripts()
+    public function store()
     {
-        wp_enqueue_style( 'bootstrap-5', \INFIXS_RSP_ASSETS_URL . 'bootstrap/css/bootstrap.min.css', [],  \INFIXS_RSP_PLUGIN_VERSION);
+        $firstname = $_POST['firstname'];
+        $lastname = $_POST['lastname'];
+        $phone = $_POST['phone'];
+        $nasc = $_POST['nasc'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $password_confirm = $_POST['password_confirm'];
+
+        $validate = Validator::make( $_POST, [
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'phone' => 'required',
+            'nasc' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'password_confirm' => 'required'
+        ]);
+
+        
+        return $this->view('front.subscription', compact('validate') );
     }
 }

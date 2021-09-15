@@ -21,4 +21,9 @@ class Str
     {
         return preg_replace( ['/\/$/', '/^\//', '/[^a-zA-Z]/i'], ['', '', '_'], $string);
     }
+
+    public static function lower( String $string )
+    {
+        return strtolower( $string );
+    }
 }
