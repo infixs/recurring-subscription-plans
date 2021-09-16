@@ -57,7 +57,9 @@ class Route
 
     public function query_vars( $vars )
     {
-        $vars[] = $this->var_name;
+        if( !in_array( $this->var_name, $vars ) )
+            $vars[] = $this->var_name;
+
         return $vars;
     }
 
@@ -65,15 +67,14 @@ class Route
     {
         $rule = '^' . $this->url . '/?$';
         $rules = get_option( 'rewrite_rules' );
-
-        if ( ! isset( $rules[$rule] ) ) { 
-            add_rewrite_rule(
-                $rule,
-                'index.php?' . $this->var_name . '=1',
-                'top' 
-            );
-            flush_rewrite_rules();   
-        }
+        
+        add_rewrite_rule(
+            $rule,
+            'index.php?' . $this->var_name . '=1',
+            'top' 
+        );
+        //Fazer uma vez apaneas
+        flush_rewrite_rules();   
     }
 
     public function parse_request( $wp )
