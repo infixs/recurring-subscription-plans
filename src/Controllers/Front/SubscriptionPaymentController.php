@@ -3,7 +3,7 @@ namespace RecurringSubscriptionPlans\Controllers\Front;
 
 use Infixs\Controller;
 use Infixs\Http\Request;
-use Infixs\Support\Validator;
+use Infixs\Support\Validation\Validator;
 use RecurringSubscriptionPlans\Database\Models\Plan;
 
 class SubscriptionPaymentController extends Controller
@@ -32,6 +32,10 @@ class SubscriptionPaymentController extends Controller
             'exp-date' => 'required',
             'cvv' => 'required',
         ]);
+
+        if( $validate['isValid'] ){
+            
+        }
 
         return $this->view('front.subscription-payment', compact('validate') );
     }

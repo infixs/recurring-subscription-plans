@@ -3,9 +3,7 @@ namespace RecurringSubscriptionPlans\Controllers\Front;
 
 use Infixs\Controller;
 use Infixs\Http\Request;
-use Infixs\Support\Validator;
-use Infixs\WP;
-use NumberFormatter;
+use Infixs\Support\Validation\Validator;
 use RecurringSubscriptionPlans\Database\Models\Plan;
 
 class SubscriptionController extends Controller
@@ -21,6 +19,14 @@ class SubscriptionController extends Controller
         $plan_id = (int) $request->input('plan');
         $plan = Plan::getPlan($plan_id, ['name', 'price']);
         $plan = $plan ? $plan : null;
+
+        $validate = Validator::make( $request->all(), [
+            'firstname' => 'required'
+        ]);
+
+        print_r( $validate->errors()->get('firstname') );
+
+        //print_r($validate->errors());
 
         return $this->view( 'front.subscription', compact('plan') );
     }

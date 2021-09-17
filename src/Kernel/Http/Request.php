@@ -30,4 +30,15 @@ class Request
     {
         return isset($this->data[$input]) ? $this->data[$input] : null;
     }
+
+    /**
+     * Return all requests parameters.
+     *
+     * @param string $input
+     * @return void
+     */
+    public function all()
+    {
+        return $this->data;
+    }
 }
