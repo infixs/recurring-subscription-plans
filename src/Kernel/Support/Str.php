@@ -26,4 +26,9 @@ class Str
     {
         return strtolower( $string );
     }
+
+    public static function toMoney( String $string )
+    {
+        return 'R$ ' . number_format( $string, 2, ',', '.' );
+    }
 }

@@ -1,5 +1,8 @@
 <?php
 //Prevent direct file call
+
+use Infixs\Support\Str;
+
 defined( 'ABSPATH' ) || exit;
 
 include \INFIXS_RSP_TEMPLATE_PATH . 'front/layout/header.php';
@@ -21,7 +24,9 @@ include \INFIXS_RSP_TEMPLATE_PATH . 'front/layout/header.php';
                     <div class="col-md">
                         <div class="message">
                         <i class="fa fa-check"></i>
-                        <div class="text">Você está assinando o plano <strong>Nome do Plano</strong> por apenas <strong>R$ 29,90</strong>, cancele a qualquer momento sem custos.</div>
+                        <?php if( isset( $plan ) ): ?>
+                        <div class="text">Você está assinando o plano <strong><?php printf( '%s', sanitize_text_field( $plan->name ) ); ?></strong> por apenas <strong><?php printf( '%s', Str::toMoney( $plan->price ) ); ?></strong>, cancele a qualquer momento sem custos.</div>
+                        <?php endif; ?>
                         </div>
                     </div>
                 </div>

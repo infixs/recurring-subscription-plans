@@ -29,14 +29,14 @@ class Migration
 			die();
 		}
 
-		if( $installed_version != $current_version ){
+		if( version_compare( $installed_version, $current_version, '<=' ) ){
 			update_option( \INFIXS_RSP_PLUGIN_PREFIX . 'updating', 'yes' );
+			ignore_user_abort(1);
+			self::check_tables();
+			update_option( \INFIXS_RSP_PLUGIN_PREFIX . 'updating', 'no' );
+			update_option( \INFIXS_RSP_PLUGIN_PREFIX . 'version', $current_version);
 		}
-
-		ignore_user_abort(1);
-		self::check_tables();
-		update_option( \INFIXS_RSP_PLUGIN_PREFIX . 'updating', 'no' );
-		update_option( \INFIXS_RSP_PLUGIN_PREFIX . 'version', $current_version);
+		
     }
 
     /**
@@ -57,15 +57,31 @@ class Migration
 		
 		$sql = "
 		CREATE TABLE {$wpdb->prefix}{$plugin_prefix}subscribers (
-			ID bigint(20) NOT NULL AUTO_INCREMENT,
+			id bigint(20) NOT NULL AUTO_INCREMENT,
 			usuario_id bigint(20) NOT NULL,
 			url text NOT NULL,
 			slug varchar(255) NOT NULL,
 			titulo text NOT NULL,
 			descricao text NOT NULL,
 			parametros text NOT NULL,
-			data_hora_add datetime NOT NULL,
-			PRIMARY KEY  (ID)
+			created_at datetime DEFAULT CURRENT_TIMESTAMP,
+			updated_at datetime ON UPDATE CURRENT_TIMESTAMP,
+			PRIMARY KEY  (id)
+		)
+		COLLATE {$wpdb_collate}";
+		$result[] = dbDelta( $sql );
+
+		$sql = "
+		CREATE TABLE {$wpdb->prefix}{$plugin_prefix}plans (
+			id bigint(20) NOT NULL AUTO_INCREMENT,
+			name varchar(255) NOT NULL,
+			slug varchar(255) NOT NULL,
+			price decimal(10,2) NOT NULL,
+			trial_days int DEFAULT 0,
+			days int NOT NULL,
+			created_at datetime DEFAULT CURRENT_TIMESTAMP,
+			updated_at datetime ON UPDATE CURRENT_TIMESTAMP,
+			PRIMARY KEY  (id)
 		)
 		COLLATE {$wpdb_collate}";
 		$result[] = dbDelta( $sql );

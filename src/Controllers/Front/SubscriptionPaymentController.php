@@ -2,14 +2,26 @@
 namespace RecurringSubscriptionPlans\Controllers\Front;
 
 use Infixs\Controller;
+use Infixs\Http\Request;
 use Infixs\Support\Validator;
+use RecurringSubscriptionPlans\Database\Models\Plan;
 
 class SubscriptionPaymentController extends Controller
 {
-    public function index()
+    public function index( Request $request )
     {
         $validate = Validator::make( $_POST, [] );
-        return $this->view('front.subscription-payment', compact('validate') );
+
+        $plan_id = (int) $request->input('plan');
+
+        if( !$plan_id ){
+            $this->redirect('/');
+            die();
+        }
+
+        $plan = Plan::getPlan($plan_id, ['name', 'price']);
+
+        return $this->view('front.subscription-payment', compact('validate', 'plan') );
     }
 
     public function store()

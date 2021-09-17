@@ -1,6 +1,7 @@
 <?php
 namespace Infixs\Routing;
 
+use Infixs\Http\Request;
 use Infixs\Support\Str;
 use Infixs\WP;
 
@@ -81,9 +82,10 @@ class Route
     {
         if(isset($wp->query_vars[$this->var_name]) && $this->method == Str::lower( $_SERVER['REQUEST_METHOD'] ) ){
             if( is_array( $this->action ) ){
+                //Create controller instance
                 $action_instance = new $this->action[0];
                 $this->action_instance = $action_instance;
-                call_user_func( [$action_instance, $this->action[1]] );
+                call_user_func( [$action_instance, $this->action[1]], new Request );
             }
             else
             {
