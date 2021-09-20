@@ -20,14 +20,6 @@ class SubscriptionController extends Controller
         $plan = Plan::getPlan($plan_id, ['name', 'price']);
         $plan = $plan ? $plan : null;
 
-        $validate = Validator::make( $request->all(), [
-            'firstname' => 'required'
-        ]);
-
-        print_r( $validate->errors()->get('firstname') );
-
-        //print_r($validate->errors());
-
         return $this->view( 'front.subscription', compact('plan') );
     }
 
@@ -59,7 +51,7 @@ class SubscriptionController extends Controller
         ]);
 
 
-        if( $validate['isValid'] )
+        if( !$validate->fails() )
         {
             if( isset( $_GET['plan'] ) )
                 $this->redirect('/subscription/payment', ['plan' => $_GET['plan']] );
@@ -68,7 +60,7 @@ class SubscriptionController extends Controller
 
             die();
         }
-        
+
         return $this->view( 'front.subscription', compact('validate') );
     }
 }

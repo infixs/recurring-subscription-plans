@@ -24,7 +24,7 @@ class SubscriptionPaymentController extends Controller
         return $this->view('front.subscription-payment', compact('validate', 'plan') );
     }
 
-    public function store()
+    public function store( Request $request )
     {
         $validate = Validator::make( $_POST, [
             'ccname' => 'required',
@@ -33,10 +33,15 @@ class SubscriptionPaymentController extends Controller
             'cvv' => 'required',
         ]);
 
-        if( $validate['isValid'] ){
-            
+        $plan_id = (int) $request->input('plan');
+
+        if( !$plan_id ){
+            $this->redirect('/');
+            die();
         }
 
-        return $this->view('front.subscription-payment', compact('validate') );
+        $plan = Plan::getPlan($plan_id, ['name', 'price']);
+
+        return $this->view('front.subscription-payment', compact('validate', 'plan') );
     }
 }

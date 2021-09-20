@@ -12,10 +12,14 @@ include \INFIXS_RSP_TEMPLATE_PATH . 'front/layout/header.php';
         <form class="anim" autocomplete="off" method="POST">
             <h3 class="rsp-h3 font-bold">Registrar</h3>
             <div class="card subscription-card">
-                <?php if( isset($validate) && !$validate['isValid'] ) : ?>
+                <?php if( isset($validate) && $validate->fails() ) : ?>
                 <div class="alert alert-warning alert-dismissible fade show mb-4" role="alert">
                     <span class="message">
-                        <?php echo $validate['htmlErrors']; ?>
+                        <?php 
+                        foreach($validate->errors()->all() as $error){
+                            echo '<li>' . sanitize_text_field($error) . '</li>';
+                        }
+                        ?>
                     </span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
