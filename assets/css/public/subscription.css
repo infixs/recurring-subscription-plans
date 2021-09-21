@@ -72,6 +72,9 @@ footer{
     z-index: 10;
     transition: transform 150ms ease-out, font-size 150ms ease-out;
 }
+.subscription-wrap form .message svg {
+    margin-right: 0.8em;
+}
 .subscription-wrap form .form-group {
     position: relative;
 }

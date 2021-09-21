@@ -86,17 +86,57 @@ class Core {
 
 		RouteServiceProvider::boot();
 
+		WP::add_action('init', $this, 'init' );
 		WP::add_action('plugins_loaded', $this, 'after_load' );
     }
 
 	/**
-	 * Adter load function
+	 * Wordpress Init
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function init()
+	{
+		
+	}
+
+	/**
+	 * Load plugin text domain
+	 *
+	 * @return void
+	 */
+	public function load_plugin_textdomain() {
+		$locale = determine_locale();
+		$domain = \INFIXS_RSP_PLUGIN_NAME;
+
+		$locale = apply_filters( 'plugin_locale', $locale, $domain );
+
+		if ( is_textdomain_loaded( $domain ) ) {
+			unload_textdomain( $domain );
+		}
+
+		$mofile = sprintf( '%s-%s.mo', $domain, $locale );
+
+		$domain_path = path_join( INFIXS_RSP_PLUGIN_PATH, 'i18n/languages' );
+		$loaded = load_textdomain( $domain, path_join( $domain_path, $mofile ) );
+		
+		if ( ! $loaded ) {
+			$domain_path = path_join( WP_LANG_DIR, 'plugins' );
+			load_textdomain( $domain, path_join( $domain_path, $mofile ) );
+		}
+		
+		load_plugin_textdomain( 'recurring-subscription-plans', false, INFIXS_RSP_PLUGIN_PATH . 'i18n/languages' );
+	}
+
+	/**
+	 * After load function
 	 *
 	 * @since 1.0.0
 	 * @return void
 	 */
 	public function after_load()
 	{
-
+		$this->load_plugin_textdomain();
 	}
 }

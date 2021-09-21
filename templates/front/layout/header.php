@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
 <body class="" <?php echo is_admin_bar_showing()? 'style="min-height: calc(100vh - 32px);"' : ''; ?> id="rsp-custom-page">
 <nav class="navbar navbar-expand-lg static-top" style="font-size: 12px;">
   <div class="container">
-    <a class="navbar-brand" href="">
+    <a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">
         <img style="height: 32px" src="https://muscleboss.com.br/wp-content/plugins/muscleboss/assets/img/logo-muscleboss.png" alt="">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">

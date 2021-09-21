@@ -12,9 +12,15 @@ class Controller
 
     public function view( $name, $vars = [] )
     {
-        $GLOBALS += $vars;
-        $this->name = $name;
-        WP::add_filter( 'template_include', $this, 'get_template' );
+        if( !is_admin() ){
+            $GLOBALS += $vars;
+            $this->name = $name;
+            WP::add_filter( 'template_include', $this, 'get_template' );
+        }else{
+            extract( $vars );
+            $this->name = $name;
+            include \INFIXS_RSP_TEMPLATE_PATH . preg_replace( '/\./', '/', $name ) . '.php';
+        }
     }
 
     public function redirect( $url, $query = [] )

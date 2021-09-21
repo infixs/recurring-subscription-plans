@@ -6,6 +6,7 @@ use Infixs\Http\Request;
 use Infixs\Support\Validation\Validator;
 use RecurringSubscriptionPlans\Database\Models\Plan;
 
+defined( 'ABSPATH' ) || exit;
 class SubscriptionPaymentController extends Controller
 {
     public function index( Request $request )

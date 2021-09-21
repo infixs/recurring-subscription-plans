@@ -6,6 +6,7 @@ use Infixs\Http\Request;
 use Infixs\Support\Validation\Validator;
 use RecurringSubscriptionPlans\Database\Models\Plan;
 
+defined( 'ABSPATH' ) || exit;
 class SubscriptionController extends Controller
 {
     /**
@@ -29,7 +30,7 @@ class SubscriptionController extends Controller
      * @since 1.0.0
      * @return string
      */
-    public function store()
+    public function store( Request $request )
     {
         $firstname = $_POST['firstname'];
         $lastname = $_POST['lastname'];
@@ -61,6 +62,10 @@ class SubscriptionController extends Controller
             die();
         }
 
-        return $this->view( 'front.subscription', compact('validate') );
+        $plan_id = (int) $request->input('plan');
+        $plan = Plan::getPlan($plan_id, ['name', 'price']);
+        $plan = $plan ? $plan : null;
+
+        return $this->view( 'front.subscription', compact('validate', 'plan') );
     }
 }
