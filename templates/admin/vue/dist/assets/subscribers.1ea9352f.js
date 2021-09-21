@@ -1,0 +1,1 @@
+import{o as n,c as r,a as o,b as a}from"./vendor.61669662.js";var e=(n,r)=>{for(const[o,a]of r)n[o]=a;return n};const t={},s=[o("h2",null,"Tamplete Vue",-1)];a(e(t,[["render",function(o,a,e,t,u,l){return n(),r("div",null,s)}]])).mount("#app");

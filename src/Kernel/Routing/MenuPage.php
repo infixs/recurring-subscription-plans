@@ -62,7 +62,16 @@ class MenuPage
      */
     public function get( $function )
     {
-        $this->function['get'] = $function;
+        global $pagenow;
+
+        $method = Str::lower( $_SERVER['REQUEST_METHOD'] );
+        
+        if( is_admin() && $pagenow == 'admin.php' && isset( $_GET['page'] ) && $_GET['page'] == $this->slug && $method == 'get' ){
+            $this->function['get'] = $function;
+            $action_instance = new $this->function['get'][0];
+            call_user_func( [$action_instance, $this->function['get'][1]], new Request );
+        }
+        
         return $this;
     }
 
@@ -75,7 +84,16 @@ class MenuPage
      */
     public function post( $function )
     {
-        $this->function['post'] = $function;
+        global $pagenow;
+
+        $method = Str::lower( $_SERVER['REQUEST_METHOD'] );
+        
+        if( is_admin() && $pagenow == 'admin.php' && isset( $_GET['page'] ) && $_GET['page'] == $this->slug && $method == 'post' ){
+            $this->function['post'] = $function;
+            $action_instance = new $this->function['post'][0];
+            call_user_func( [$action_instance, $this->function['post'][1]], new Request );
+        }
+        
         return $this;
     }
 
@@ -107,10 +125,8 @@ class MenuPage
     public function parse_request()
     {
         $method = Str::lower( $_SERVER['REQUEST_METHOD'] );
-
         if( isset( $this->function[$method] ) ){
-            $action_instance = new $this->function[$method][0];
-            call_user_func( [$action_instance, $this->function[$method][1]], new Request );
+            do_action( 'infixs_routing_menu_page_' . $method . '_' . $_GET['page'] );
         }else{
             echo "Page Not Found";
         }

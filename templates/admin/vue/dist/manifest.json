@@ -1,0 +1,13 @@
+{
+  "src/subscribers.js": {
+    "file": "assets/subscribers.1ea9352f.js",
+    "src": "src/subscribers.js",
+    "isEntry": true,
+    "imports": [
+      "_vendor.61669662.js"
+    ]
+  },
+  "_vendor.61669662.js": {
+    "file": "assets/vendor.61669662.js"
+  }
+}

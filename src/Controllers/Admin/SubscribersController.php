@@ -12,12 +12,12 @@ class SubscribersController extends Controller
 {
     public function index()
     {
-        return $this->view( 'admin.subscribers' );
+        $valores = 'teste';
+        return $this->viewVue( 'subscribers', 'admin.vue.subscribers', compact('valores') );
     }
 
     public function store()
     {
-        echo "ok";
-        return $this->view( 'admin.subscribers' );
+        return $this->view( 'admin.vue.subscribers' );
     }
 }
