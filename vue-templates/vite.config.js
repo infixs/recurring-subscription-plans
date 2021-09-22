@@ -2,12 +2,17 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue()],
+  base: process.env.APP_ENV == 'development'  ? '/' : '/wp-content/plugins/recurring-subscription-plans/assets/vue',
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, "./src")
+    },
+  },
   build: {
     // output dir for production build
-    outDir: resolve(__dirname, '../templates/admin/vue/dist'),
+    outDir: resolve(__dirname, '../assets/vue'),
     emptyOutDir: true,
 
     // emit manifest so PHP can find the hashed files
@@ -19,7 +24,7 @@ export default defineConfig({
     // our entry
     rollupOptions: {
       input: {
-        subscribers: '/src/subscribers.js',
+        main: 'src/main.js',
       }
     }
   }

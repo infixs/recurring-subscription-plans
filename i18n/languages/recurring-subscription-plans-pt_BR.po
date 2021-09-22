@@ -1,5 +1,3 @@
-# Copyright (C) 2021 Infixs
-# This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
 "Project-Id-Version: Recurring Subscription Plans 1.0.0\n"
@@ -11,6 +9,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2021-09-20T19:09:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Language: \n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: recurring-subscription-plans\n"
 

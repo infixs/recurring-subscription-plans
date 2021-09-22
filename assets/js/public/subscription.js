@@ -1,5 +1,4 @@
-jQuery(function($){
-
+jQuery(function($){    
     $('#billing_postcode').on('focusout', function(){
         let cep = $('#billing_postcode').val();
         cep = cep.replace(/[^0-9]/i, '');

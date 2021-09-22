@@ -2,16 +2,18 @@
   "name": "vue-templates",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "APP_ENV=development vite",
+    "build": "vite build --watch",
     "serve": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.2.6"
+    "vue": "^3.2.6",
+    "vue-router": "^4.0.11"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.6.1",
     "@vue/compiler-sfc": "^3.2.6",
+    "naive-ui": "^2.19.1",
     "vite": "^2.5.4"
   }
 }

@@ -215,4 +215,54 @@ class WP
 	{
 		include \INFIXS_RSP_PLUGIN_PATH . 'templates/' . preg_replace( '/\./', '/', $name ) . '.php';
 	}
+
+	/**
+	 * Load Script Function
+	 *
+	 * @since 1.0.0
+	 * @param string $name
+	 * @param string $url
+	 * @param array $dependecies
+	 * @param string $version
+	 * @param boolean $load_in_header
+	 * @return void
+	 */
+	public static function load_script( string $name, string $url, array $dependecies = [], string $version = '', bool $load_in_header = false ){
+		add_action( 'wp_enqueue_scripts', function() use ($name, $url, $dependecies, $version, $load_in_header){
+			wp_enqueue_script( $name, $url, $dependecies, $version, $load_in_header);
+		});
+	}
+
+	/**
+	 * Load Admin Script Function
+	 *
+	 * @since 1.0.0
+	 * @param string $name
+	 * @param string $url
+	 * @param array $dependecies
+	 * @param string $version
+	 * @param boolean $load_in_header
+	 * @return void
+	 */
+	public static function load_admin_script( string $name, string $url = '', array $dependecies = [], string $version = '', bool $load_in_header = false ){
+		add_action( 'admin_enqueue_scripts', function() use ($name, $url, $dependecies, $version, $load_in_header){
+			if( empty($url) )
+				wp_enqueue_script($name);
+			else
+				wp_enqueue_script( $name, $url, $dependecies, $version, $load_in_header);
+		});
+	}
+
+	public static function register_admin_script( string $name, string $url, array $dependecies = [], string $version = '', bool $load_in_header = false ){
+		add_action( 'admin_enqueue_scripts', function() use ($name, $url, $dependecies, $version, $load_in_header){
+			wp_register_script( 'infixs-test', \INFIXS_RSP_PLUGIN_URL . 'assets/js/admin/subscribers.js', ['wp-i18n'] );
+		});
+	}
+
+	public static function set_script_translations( string $name, $domain = '', $path = null ){
+		add_action( 'admin_enqueue_scripts', function() use ($name, $domain, $path){
+			wp_set_script_translations($name, $domain, $path);
+		});
+	}
+	
 }

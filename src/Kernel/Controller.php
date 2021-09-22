@@ -3,6 +3,7 @@ namespace Infixs;
 
 use Infixs\WP;
 use Infixs\Support\Str;
+use Infixs\Config\App;
 
 //Prevent direct file call
 defined( 'ABSPATH' ) || exit;
@@ -34,13 +35,15 @@ class Controller
 
     public function viewVue( $vue_name, $name, $vars )
     {
-        $default_vue_dir =  dirname( \INFIXS_RSP_TEMPLATE_PATH . preg_replace( '/\./', '/', $name ) ) . '/dist/' ;
-        $default_vue_url =  dirname( \INFIXS_RSP_PLUGIN_URL . 'templates/' . preg_replace( '/\./', '/', $name ) ) . '/dist/' ;
-        $manifest = $this->getManifest( $default_vue_dir . 'manifest.json' );
+        $default_vue_url =  App::BASE_URL . 'assets/vue/';
+        $manifest = $this->getManifest( App::BASE_PATH . 'assets/vue/' . 'manifest.json' );
 
         $vue_script_name = 'src/' . $vue_name . '.js';
         if( ! isset( $manifest[ $vue_script_name  ] ) )
             return;
+
+        WP::load_script()
+
 
         add_action( 'admin_head', function() use ($manifest, $default_vue_url, $vue_script_name){
             printf('<script type="module" crossorigin src="%s"></script>', $default_vue_url . $manifest[ $vue_script_name ]['file'] );

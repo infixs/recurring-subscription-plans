@@ -1,17 +1,17 @@
 import { createApp } from 'vue'
-import App from './pages/Subscribers.vue'
+import App from './SubscribersApp.vue'
 
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 const routes = [
     { 
         path: '/', 
-        component: () => import('./pages/Subscribers.vue') 
+        component: () => import('./pages/subscribers/Main.vue') 
     },
     { 
         path: '/about', 
         name: 'about',
-        component: () => import('./pages/Subscribers.vue')  
+        component: () => import('./pages/subscribers/About.vue')  
     },
 ]
 

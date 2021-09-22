@@ -1,7 +1,5 @@
 <template>
-  <div>
-      <h2>Tamplete Vue</h2>
-  </div>
+  <div>ok</div>
 </template>
 
 <script>
