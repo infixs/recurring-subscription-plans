@@ -1,0 +1,165 @@
+# Copyright (C) 2021 Infixs
+# This file is distributed under the GPLv3.
+msgid ""
+msgstr ""
+"Project-Id-Version: Recurring Subscription Plans 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/recurring-subscription-plans\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-10-06T17:51:20-03:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.5.0\n"
+"X-Domain: recurring-subscription-plans\n"
+
+#. Plugin Name of the plugin
+msgid "Recurring Subscription Plans"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://infixs.io/wordpress/plugins/recurring-subscription-plans/"
+msgstr ""
+
+#. Description of the plugin
+msgid "Make recurring charges from your subscribers."
+msgstr ""
+
+#. Author of the plugin
+msgid "Infixs"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://infixs.io"
+msgstr ""
+
+#: src/Controllers/Front/SubscriptionController.php:20
+#: templates/front/subscription-address.php:56
+msgid "Zip Code"
+msgstr ""
+
+#: src/Controllers/Front/SubscriptionController.php:21
+#: templates/front/subscription-address.php:64
+#: assets/vue/i18n/main.js:7
+msgid "Address"
+msgstr ""
+
+#: src/Controllers/Front/SubscriptionController.php:22
+#: templates/front/subscription-address.php:70
+msgid "Address Number"
+msgstr ""
+
+#: src/Controllers/Front/SubscriptionController.php:23
+#: templates/front/subscription-address.php:76
+#: templates/front/subscription-address.php:82
+msgid "Address 2"
+msgstr ""
+
+#: src/Controllers/Front/SubscriptionController.php:24
+#: templates/front/subscription-address.php:90
+msgid "Neighborhood"
+msgstr ""
+
+#: src/Controllers/Front/SubscriptionController.php:25
+#: templates/front/subscription-address.php:96
+msgid "City"
+msgstr ""
+
+#: src/Routes/Web.php:15
+#: assets/vue/i18n/main.js:4
+msgid "Subscribers"
+msgstr ""
+
+#: templates/front/subscription-address.php:16
+msgid "Billing card address"
+msgstr "Endereço do Titular do Cartão"
+
+#: templates/front/subscription-address.php:20
+#: templates/front/subscription.php:20
+msgid "You need to select a plan to proceed"
+msgstr ""
+
+#: templates/front/subscription-address.php:47
+#: templates/front/subscription-payment.php:40
+#: templates/front/subscription.php:47
+msgid "You are subscribing to the <strong>%s</strong> plan for only <strong>%s</strong>, cancel anytime for free."
+msgstr "Você está assinando o plano <strong>%s</strong> por apenas <strong>%s</strong>, cancele a qualquer momento sem custos."
+
+#: templates/front/subscription-address.php:115
+#: templates/front/subscription-payment.php:84
+#: templates/front/subscription.php:106
+msgid "Continue"
+msgstr "Continuar"
+
+#: templates/front/subscription-payment.php:17
+msgid "Payment"
+msgstr "Pagamento"
+
+#: templates/front/subscription-payment.php:48
+msgid "Name on Card"
+msgstr "Nome do Titular"
+
+#: templates/front/subscription-payment.php:54
+msgid "Credit Card Number"
+msgstr "Número do Cartão"
+
+#: templates/front/subscription-payment.php:60
+msgid "Expiration Date"
+msgstr "Data de expiração"
+
+#: templates/front/subscription-payment.php:66
+msgid "Security Code"
+msgstr "Código"
+
+#: templates/front/subscription-payment.php:73
+msgid "Your card details are protected and are used only to charge the subscription, which can be canceled at any time without charge by the customer."
+msgstr "Os detalhes do seu cartão são protegidos e são usados ​​apenas para cobrar a assinatura, que pode ser cancelada a qualquer momento sem cobrança pelo cliente."
+
+#: templates/front/subscription-payment.php:85
+msgid "Voltar"
+msgstr ""
+
+#: templates/front/subscription.php:16
+msgid "Subscription"
+msgstr "Assinatura"
+
+#: templates/front/subscription.php:56
+msgid "First Name"
+msgstr "Nome"
+
+#: templates/front/subscription.php:62
+msgid "Last Name"
+msgstr "Sobrenome"
+
+#: templates/front/subscription.php:68
+msgid "Cell Phone"
+msgstr "Celular"
+
+#: templates/front/subscription.php:74
+msgid "Document number"
+msgstr "CPF"
+
+#: templates/front/subscription.php:80
+msgid "Birth Date"
+msgstr "Nascimento"
+
+#: templates/front/subscription.php:86
+msgid "Email"
+msgstr "E-mail"
+
+#: templates/front/subscription.php:92
+msgid "Password"
+msgstr "Senha"
+
+#: templates/front/subscription.php:98
+msgid "Confirm Password"
+msgstr "Confirmar Senha"
+
+#: assets/vue/i18n/main.js:5
+msgid "Name"
+msgstr "Nome"
+
+#: assets/vue/i18n/main.js:6
+msgid "Age"
+msgstr "Idade"

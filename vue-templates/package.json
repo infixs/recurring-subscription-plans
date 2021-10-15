@@ -3,10 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "APP_ENV=development vite",
-    "build": "vite build --watch",
+    "build": "vite build",
+    "build:watch": "vite build --watch",
     "serve": "vite preview"
   },
   "dependencies": {
+    "@wordpress/i18n": "^4.2.2",
     "vue": "^3.2.6",
     "vue-router": "^4.0.11"
   },

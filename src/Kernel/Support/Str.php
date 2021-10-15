@@ -32,6 +32,23 @@ class Str
         return 'R$ ' . number_format( $string, 2, ',', '.' );
     }
 
+    public static function onlyNumber( string $string ){
+        return preg_replace( '/[^0-9]/', '', $string );
+    }
+
+    /**
+     * Returns the portion of string specified by the start and length parameters.
+     *
+     * @param  string  $string
+     * @param  int  $start
+     * @param  int|null  $length
+     * @return string
+     */
+    public static function substr($string, $start, $length = null)
+    {
+        return mb_substr($string, $start, $length, 'UTF-8');
+    }
+
     /**
      * Determine if a given string contains a given substring.
      *

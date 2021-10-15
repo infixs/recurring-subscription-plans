@@ -9,3 +9,10 @@ Teste
 
 API
 ak_test_R3vdcvHyzvB6lVuVA63phiFcYYG1MQ
+
+
+Generate .mo
+msgfmt -o languages/recurring-subscription-plans-pt_BR.mo languages/recurring-subscription-plans-pt_BR.po
+
+Generate .pot
+wp i18n make-pot . languages/recurring-subscription-plans.pot

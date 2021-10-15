@@ -1,8 +1,14 @@
 <script setup>
-import { NButton, NSpace, NDataTable } from 'naive-ui'
+import { NButton, NSpace, NDataTable, NSkeleton, NGrid } from 'naive-ui'
 import { useRouter } from 'vue-router'
-
+import { ref } from 'vue'
 import { __ } from '/src/i18n.js'
+
+const loading = ref(true);
+
+setTimeout(() => {
+  loading.value = false
+}, 2000);
 
 const data = [
   {
@@ -51,9 +57,35 @@ const columns = [
 
 <template>
   <div>
-    <h1>{{ __('Name on Card') }}</h1>
+    <n-skeleton v-if="loading" :width="300" :sharp="false" size="large" style="margin-top: 2em"/>
+    <h1 v-if="!loading">{{ __('First Name' ) }}</h1>
     <n-space vertical :size="12" class="substable">
+    <div v-if="loading">
+      <n-grid x-gap="12" :cols="3">
+        <n-gi>
+          <n-skeleton style="width: 100%;" :sharp="false" size="large" />
+        </n-gi>
+        <n-gi>
+          <n-skeleton style="width: 100%;" :sharp="false" size="large" />
+        </n-gi>
+        <n-gi>
+          <n-skeleton style="width: 100%;" :sharp="false" size="large" />
+        </n-gi>
+      </n-grid>
+      <n-grid x-gap="12" :cols="3">
+        <n-gi>
+          <n-skeleton style="width: 100%;" :sharp="false" size="large" />
+        </n-gi>
+        <n-gi>
+          <n-skeleton style="width: 100%;" :sharp="false" size="large" />
+        </n-gi>
+        <n-gi>
+          <n-skeleton style="width: 100%;" :sharp="false" size="large" />
+        </n-gi>
+      </n-grid>
+    </div>
       <n-data-table
+        v-if="!loading"
         :bordered="false"
         :single-line="true"
         :columns="columns"

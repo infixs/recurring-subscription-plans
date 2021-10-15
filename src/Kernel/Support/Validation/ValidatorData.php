@@ -15,6 +15,13 @@ class ValidatorData
     protected $passed = true;
 
     /**
+     * Attribute names
+     *
+     * @var arrray
+     */
+    protected $attribute_names = array();
+
+    /**
      * Errors messages
      *
      * @var \Infixs\Support\MessageBag
@@ -67,5 +74,21 @@ class ValidatorData
      */
     public function errors(){
         return $this->_errors;
+    }
+
+    /**
+     * Set nice names for inputs
+     *
+     * @param array $niceNames
+     * @return void
+     */
+    public function setAttributeNames( $niceNames )
+    {
+        $this->attribute_names = $niceNames;
+    }
+
+    public function getAttributeName( $key )
+    {
+        return isset( $this->attribute_names[$key] ) ? $this->attribute_names[$key] : $key;
     }
 }

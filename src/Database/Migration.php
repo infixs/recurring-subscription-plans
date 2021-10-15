@@ -29,7 +29,7 @@ class Migration
 			die();
 		}
 
-		if( version_compare( $installed_version, $current_version, '<=' ) ){
+		if( version_compare( $installed_version, $current_version, '<' ) ){
 			update_option( \INFIXS_RSP_PLUGIN_PREFIX . 'updating', 'yes' );
 			ignore_user_abort(1);
 			self::check_tables();
@@ -58,12 +58,47 @@ class Migration
 		$sql = "
 		CREATE TABLE {$wpdb->prefix}{$plugin_prefix}subscribers (
 			id bigint(20) NOT NULL AUTO_INCREMENT,
-			usuario_id bigint(20) NOT NULL,
-			url text NOT NULL,
-			slug varchar(255) NOT NULL,
-			titulo text NOT NULL,
-			descricao text NOT NULL,
-			parametros text NOT NULL,
+			user_id bigint(20) NOT NULL,
+			payment_method varchar(80) NOT NULL,
+			email varchar(255) NOT NULL,
+			first_name varchar(255) NOT NULL,
+			last_name varchar(255) NOT NULL,
+			document_number varchar(255) NOT NULL,
+			status varchar(80) NOT NULL,
+			gateway varchar(255) NOT NULL,
+			default_card bigint(20) DEFAULT NULL,
+			created_at datetime DEFAULT CURRENT_TIMESTAMP,
+			updated_at datetime ON UPDATE CURRENT_TIMESTAMP,
+			PRIMARY KEY  (id)
+		)
+		COLLATE {$wpdb_collate}";
+		$result[] = dbDelta( $sql );
+
+		$sql = "
+		CREATE TABLE {$wpdb->prefix}{$plugin_prefix}subscriber_cards (
+			id bigint(20) NOT NULL AUTO_INCREMENT,
+			subscriber_id bigint(20) NOT NULL,
+			brand varchar(80) NOT NULL,
+			last_digits varchar(4) NOT NULL,
+			first_digits varchar(6) NOT NULL,
+			expiration_date varchar(6) NOT NULL,
+			holder_name varchar(255) NOT NULL,
+			card_hash varchar(255) NOT NULL,
+			created_at datetime DEFAULT CURRENT_TIMESTAMP,
+			updated_at datetime ON UPDATE CURRENT_TIMESTAMP,
+			PRIMARY KEY  (id)
+		)
+		COLLATE {$wpdb_collate}";
+		$result[] = dbDelta( $sql );
+
+		$sql = "
+		CREATE TABLE {$wpdb->prefix}{$plugin_prefix}subscriber_charges (
+			id bigint(20) NOT NULL AUTO_INCREMENT,
+			subscriber_id bigint(20) NOT NULL,
+			status varchar(80) NOT NULL,
+			amount decimal(10,2) NOT NULL,
+			paid_amount decimal(10,2) NOT NULL,
+			card_last_digits int(4) DEFAULT NULL,
 			created_at datetime DEFAULT CURRENT_TIMESTAMP,
 			updated_at datetime ON UPDATE CURRENT_TIMESTAMP,
 			PRIMARY KEY  (id)

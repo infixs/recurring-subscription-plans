@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
 <nav class="navbar navbar-expand-lg static-top" style="font-size: 12px;">
   <div class="container">
     <a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-        <img style="height: 32px" src="https://muscleboss.com.br/wp-content/plugins/muscleboss/assets/img/logo-muscleboss.png" alt="">
+        <img style="height: 32px" src="<?php echo \INFIXS_RSP_PLUGIN_URL;?>assets/img/logo.png" alt="">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -32,13 +32,13 @@ defined( 'ABSPATH' ) || exit;
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav">
                 <li class="nav-item">
-          <a class="nav-link" href="https://muscleboss.com.br/registrar/">Crie sua conta</a>
+          <a class="nav-link" href="#">Crie sua conta</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="https://muscleboss.com.br/muscle-admin/?redirect_to=https://muscleboss.com.br/assinar/">Entre</a>
+          <a class="nav-link" href="#">Entre</a>
         </li>
                         <li class="nav-item">
-          <a class="nav-link" href="https://api.whatsapp.com/send?phone=5541995273972&amp;text=Ol%C3%A1%20Muscleboss,%20gostaria%20de%20tirar%20uma%20d%C3%BAvida">Contato</a>
+          <a class="nav-link" href="#">Contato</a>
         </li>
       </ul>
     </div>

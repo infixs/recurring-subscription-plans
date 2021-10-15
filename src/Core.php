@@ -118,7 +118,7 @@ class Core {
 
 		$mofile = sprintf( '%s-%s.mo', $domain, $locale );
 
-		$domain_path = path_join( INFIXS_RSP_PLUGIN_PATH, 'i18n/languages' );
+		$domain_path = path_join( INFIXS_RSP_PLUGIN_PATH, 'languages' );
 		$loaded = load_textdomain( $domain, path_join( $domain_path, $mofile ) );
 		
 		if ( ! $loaded ) {
@@ -126,7 +126,7 @@ class Core {
 			load_textdomain( $domain, path_join( $domain_path, $mofile ) );
 		}
 		
-		load_plugin_textdomain( 'recurring-subscription-plans', false, INFIXS_RSP_PLUGIN_PATH . 'i18n/languages' );
+		load_plugin_textdomain( 'recurring-subscription-plans', false, INFIXS_RSP_PLUGIN_PATH . 'languages' );
 	}
 
 	/**

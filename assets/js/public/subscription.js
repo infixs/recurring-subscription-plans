@@ -20,10 +20,6 @@ jQuery(function($){
         }
       });
 
-    var animateForm = function(){
-        
-    };
-
     $('form.anim input').focus(function(){
         $(this).parents('.form-group').addClass('focused');
     });
@@ -48,127 +44,22 @@ jQuery(function($){
 
     $("input.cpf").mask('000.000.000-00', {reverse: false});
     $("input.celphone").mask('(00) 00000-0000', {reverse: false});
-    $("input.cep").mask('00000-000', {reverse: false});
-    $("input.musclecard").mask('00 00 00000', {reverse: false});
-    $("input.confirmcode").mask('00 00', {reverse: false});
+    $("input.zipcode").mask('00000-000', {reverse: false});
     $("input.date").mask('00/00/0000', {reverse: false});
     $("input.expire-date").inputmask({regex: "^(0[1-9]|1[0-2])\/[0-9]{2}"});
     $("input.cvv").inputmask({regex: "^[0-9]{3}[0-9]?$"});
     $("input.card-number").mask('0000 0000 0000 0000');
 
-    $("#subscibe-form").on("submit", function(e){
+    /*$("form.rsp-subscription-form").on("submit", function(e){
         e.preventDefault();
-        let formEl = $(this);
-        let formData = formEl.serialize();
-        muscleboss.loading.add("body",true);
-        $.post(adminAjaxUrl, formData).done(function(data){
-            if( data.status == 'OK' ){
-                formEl.find('.alert').hide();
-                $("#subscibe-form").unbind().submit();
-            }else{
-                muscleboss.loading.remove();
-                $(".alert").html(data.message).show();
-                muscleboss.goTop();
-            }
+        let formElement = $(this);
+        let formData = $(formElement).serialize();
+        $.post(window.location.href, formData).done(function(data){
+            if( data.status == 'OK' )
+                window.location.href = data.redirect;
         }).fail(function(){
-            $(".alert").html("Falha ao enviar formulÃ¡rio, tente novamente mais tarde.").show();
-            muscleboss.loading.remove();
-            muscleboss.goTop();
-        });
-    });
-
-    $(".muscle-default-form").on("submit", function(e){
-        e.preventDefault();
-        let formEl = $(this);
-        let formData = formEl.serialize();
-        muscleboss.loading.add("body",true);
-        $.post(adminAjaxUrl, formData).done(function(data){
-            if( data.status == 'OK' ){
             
-                formEl.find('.alert').hide();
-
-                if( data.alert !== undefined ){
-                    muscleboss.loading.remove();
-                    Swal.fire( data.alert ).then((result) => {
-                        if( data.redirect !== undefined ){
-                            muscleboss.loading.add("body",true);
-                            window.location.href = data.redirect;
-                            return;
-                        }
-                    });
-                    return;
-                }
-
-                if( data.actionUrl !== undefined ){
-                    formEl.attr('action', data.actionUrl);
-                }
-                if( data.redirect !== undefined ){
-                    window.location.href = data.redirect;
-                    return;
-                }
-
-                formEl.unbind().submit();
-            }else{
-                muscleboss.loading.remove();
-                $(".alert").html(data.message).show();
-                muscleboss.goTop();
-            }
-        }).fail(function(){
-            $(".alert").html("Falha ao enviar formulÃ¡rio, tente novamente mais tarde.").show();
-            muscleboss.loading.remove();
-            muscleboss.goTop();
         });
-    });
 
-    $("#register-form").on("submit", function(e){
-        e.preventDefault();
-        let formEl = $(this);
-        let formData = $("#register-form").serialize();
-        muscleboss.loading.add("body",true);
-        $.post(adminAjaxUrl, formData).done(function(data){
-            if( data.status == 'OK' ){
-                formEl.find('.alert').hide();
-                console.log(data.redirect);
-                window.location = data.redirect;
-            }else{
-                muscleboss.loading.remove();
-                $(".alert").html(data.message).show();
-                muscleboss.goTop();
-            }
-        }).fail(function(){
-            $(".alert").html("Falha ao enviar formulÃ¡rio, tente novamente mais tarde.").show();
-            muscleboss.loading.remove();
-            muscleboss.goTop();
-        });
-    });
-
-    $("#subscibe-form-complete").on("submit", function(e){
-        e.preventDefault();
-        let formEl = $(this);
-        let formData = formEl.serialize();
-        muscleboss.loading.add("body",true);
-        $.post(adminAjaxUrl, formData).done(function(data){
-            if( data.status == 'OK' ){
-                formEl.find('.alert').hide();
-                switch(data.message){
-                    case 'paid':
-                        window.location = data.redirect;
-                    break;
-                    case 'refused':
-                        muscleboss.loading.remove();
-                        //$(".alert").html("CobranÃ§a recusada, verifique os dados e tente novamente.").show();
-                    break;
-                }
-            }else{
-                muscleboss.loading.remove();
-                $(".alert").html(data.message).show();
-                muscleboss.goTop();
-            }
-        }).fail(function(){
-            $(".alert").html("Falha ao enviar formulÃ¡rio, tente novamente mais tarde.").show();
-            muscleboss.loading.remove();
-            muscleboss.goTop();
-        });
-    });
-
+    });*/
 });

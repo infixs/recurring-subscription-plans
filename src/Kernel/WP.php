@@ -233,6 +233,31 @@ class WP
 		});
 	}
 
+	public static function script_loader_tag($name, $type){
+		if( $type == 'module' ){
+			add_filter('script_loader_tag', function($tag, $handle, $src) use ($name){
+				if( $name !== $handle ) {
+					return $tag;
+				}
+
+				$tag = '<script type="module" crossorigin src="' . esc_url( $src ) . '" id="' . $handle . '-js"></script>' . PHP_EOL;
+				return $tag;
+
+			} , 10, 3);
+		}
+		if( $type == 'modulepreload' ){
+			add_filter('script_loader_tag', function($tag, $handle, $src) use ($name){
+				if( $name !== $handle ) {
+					return $tag;
+				}
+
+				$tag = '<link rel="modulepreload" href="' . esc_url( $src ) . '" id="' . $handle . '-js">' . PHP_EOL;
+				return $tag;
+
+			} , 10, 3);
+		}
+	}
+
 	/**
 	 * Load Admin Script Function
 	 *
@@ -244,18 +269,26 @@ class WP
 	 * @param boolean $load_in_header
 	 * @return void
 	 */
-	public static function load_admin_script( string $name, string $url = '', array $dependecies = [], string $version = '', bool $load_in_header = false ){
-		add_action( 'admin_enqueue_scripts', function() use ($name, $url, $dependecies, $version, $load_in_header){
-			if( empty($url) )
+	public static function load_admin_script( string $name, string $url = '', array $dependecies = [], string $version = '', bool $load_in_header = false, $type = 'default' ){
+		add_action( 'admin_enqueue_scripts', function() use ($name, $url, $dependecies, $version, $load_in_header, $type){
+
+			self::script_loader_tag( $name, $type );
+
+			if( empty($url) ){
 				wp_enqueue_script($name);
-			else
-				wp_enqueue_script( $name, $url, $dependecies, $version, $load_in_header);
+			}
+			else{
+				if( in_array( $url, ['module', 'modulepreload'] ) ){
+					self::script_loader_tag( $name, $url );
+				}
+				wp_enqueue_script( $name, $url, $dependecies, $version, $load_in_header );
+			}
 		});
 	}
 
 	public static function register_admin_script( string $name, string $url, array $dependecies = [], string $version = '', bool $load_in_header = false ){
 		add_action( 'admin_enqueue_scripts', function() use ($name, $url, $dependecies, $version, $load_in_header){
-			wp_register_script( 'infixs-test', \INFIXS_RSP_PLUGIN_URL . 'assets/js/admin/subscribers.js', ['wp-i18n'] );
+			wp_register_script( $name, \INFIXS_RSP_PLUGIN_URL . 'assets/js/admin/subscribers.js', ['wp-i18n'] );
 		});
 	}
 

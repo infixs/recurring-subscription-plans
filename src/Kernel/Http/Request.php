@@ -23,11 +23,23 @@ class Request
     /**
      * Get param function
      *
+     * @since 1.0.0
      * @param string $input
      * @return void
      */
     public function input( string $input )
     {
+        return isset($this->data[$input]) ? $this->data[$input] : null;
+    }
+
+    /**
+     * Return old input value
+     *
+     * @since 1.0.0
+     * @param string $input
+     * @return void
+     */
+    public function old( string $input ){
         return isset($this->data[$input]) ? $this->data[$input] : null;
     }
 

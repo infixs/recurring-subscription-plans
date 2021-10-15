@@ -35,26 +35,34 @@ class Controller
 
     public function viewVue( $vue_name, $name, $vars )
     {
-        $default_vue_url =  App::BASE_URL . 'assets/vue/';
-        $manifest = $this->getManifest( App::BASE_PATH . 'assets/vue/' . 'manifest.json' );
+        $default_vue_base_url =  App::BASE_URL . 'assets/vue/';
+        $default_vue_url =  $default_vue_base_url . 'dist/';
+        $manifest = $this->getManifest( App::BASE_PATH . 'assets/vue/dist/' . 'manifest.json' );
 
         $vue_script_name = 'src/' . $vue_name . '.js';
         if( ! isset( $manifest[ $vue_script_name  ] ) )
             return;
 
-        WP::load_script()
+        $handle = App::SHORT_NAME . '-' . $vue_name;
+        $main_script_file = $default_vue_url . $manifest[ $vue_script_name ]['file'];
 
+        WP::load_admin_script( $handle . '-module', $main_script_file, ['wp-i18n'], App::VERSION, true, 'module' );
+        WP::load_admin_script( $handle, $default_vue_base_url . 'i18n/' . $vue_name . '.js', ['wp-i18n'], App::VERSION, true );
+        WP::set_script_translations( $handle, App::TEXT_DOMAIN, App::LANGUAGES_PATH );
+        
+        if( isset( $manifest[$vue_script_name]['imports'] ) ){
+            $i = 1;
+            foreach( $manifest[$vue_script_name]['imports'] as $imports )
+            {
+                $file = $default_vue_url . $manifest[$imports]['file'];
+                WP::load_admin_script( $handle . '-import-' . $i, $file, ['wp-i18n'], App::VERSION, true, 'modulepreload' );
+                $i++;
+            }
+        }
+
+        
 
         add_action( 'admin_head', function() use ($manifest, $default_vue_url, $vue_script_name){
-            printf('<script type="module" crossorigin src="%s"></script>', $default_vue_url . $manifest[ $vue_script_name ]['file'] );
-
-            if( isset( $manifest[$vue_script_name]['imports'] ) ){
-                foreach( $manifest[$vue_script_name]['imports'] as $imports )
-                {
-                    printf('<link rel="modulepreload" href="%s">', $default_vue_url . $manifest[$imports]['file'] );
-                }
-            }
-
             if( isset( $manifest[$vue_script_name]['css'] ) ){
                 foreach( $manifest[$vue_script_name]['css'] as $imports )
                 {
@@ -72,9 +80,12 @@ class Controller
         return json_decode($content, true);
     }
 
-    public function redirect( $url, $query = [] )
+    public function redirect( $url, $query = [], $str = false )
     {
-        wp_redirect( esc_url( add_query_arg( $query, home_url( $url ) ) ) );
+        if( $str )
+            return add_query_arg( $query, home_url( $url ) );
+        else
+            wp_redirect(  add_query_arg( $query, home_url( $url ) ) );
     }
 
     public function load_template(){
@@ -86,4 +97,5 @@ class Controller
     {    
         return \INFIXS_RSP_TEMPLATE_PATH . preg_replace( '/\./', '/', $this->name ) . '.php';
     }
+
 }

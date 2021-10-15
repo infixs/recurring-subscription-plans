@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
 //Define globals
 define( 'INFIXS_RSP_PLUGIN_NAME', 'recurring-subscription-plans' );
 define( 'INFIXS_RSP_PLUGIN_NICE_NAME', 'Recurring Subscription Plans' );
-define( 'INFIXS_RSP_PLUGIN_VERSION', '1.0.0' );
+define( 'INFIXS_RSP_PLUGIN_VERSION', '1.0.7' );
 define( 'INFIXS_RSP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'INFIXS_RSP_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'INFIXS_RSP_ASSETS_URL', \INFIXS_RSP_PLUGIN_URL . 'assets/' );

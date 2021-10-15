@@ -1,6 +1,9 @@
 <?php
 namespace RecurringSubscriptionPlans\Gateways\Pagarme;
 
+use Infixs\Support\Str;
+use Infixs\Support\Validation\ValidatorData;
+
 defined( 'ABSPATH' ) || exit;
 
 class PagarmeApi {
@@ -58,11 +61,7 @@ class PagarmeApi {
 		}
 
 		// Pagar.me user-agent and api version.
-		$x_pagarme_useragent = 'wc-pagarme-pix-payment/' . WC_PAGARME_PIX_PAYMENT_PLUGIN_VERSION;
-
-		if ( defined( 'WC_VERSION' ) ) {
-			$x_pagarme_useragent .= ' woocommerce/' . WC_VERSION;
-		}
+		$x_pagarme_useragent = 'rsp-pagarme-gateway/' . \INFIXS_RSP_PLUGIN_VERSION;
 
 		$x_pagarme_useragent .= ' wordpress/' . get_bloginfo( 'version' );
 		$x_pagarme_useragent .= ' php/' . phpversion();
@@ -80,183 +79,132 @@ class PagarmeApi {
 		return wp_safe_remote_post( $this->get_api_url() . $endpoint, $params );
 	}
 
-	/**
-	 * Do the transaction.
-	 *
-	 * @param  WC_Order $order Order data.
-	 * @param  array    $args  Transaction args.
-	 * @param  string   $token Checkout token.
-	 *
-	 * @return array           Response data.
-	 */
-	public function do_transaction( $order, $args, $token = '' ) {
-		if ( 'yes' === $this->gateway->debug ) {
-			$this->gateway->log->add( $this->gateway->id, 'Doing a transaction for order ' . $order->get_order_number() . '...' );
-		}
+	public function do_subscription( $data ) {
+		
+		$endpoint = 'subscriptions';
 
-		$endpoint = 'transactions';
+		$response = $this->do_request( $endpoint, 'POST', $data );
 
-		$response = $this->do_request( $endpoint, 'POST', $args );
+		$response = json_decode( $response['body'], true );
 
-		if ( is_wp_error( $response ) ) {
-			if ( 'yes' === $this->gateway->debug ) {
-				$this->gateway->log->add( $this->gateway->id, 'WP_Error in doing the transaction: ' . $response->get_error_message() );
-			}
-
-			return array();
-		} else {
-			$data = json_decode( $response['body'], true );
-
-			if ( isset( $data['errors'] ) ) {
-				if ( 'yes' === $this->gateway->debug ) {
-					$this->gateway->log->add( $this->gateway->id, 'Failed to make the transaction: ' . print_r( $response, true ) );
-				}
-
-				return $data;
-			}
-
-			if ( 'yes' === $this->gateway->debug ) {
-				$this->gateway->log->add( $this->gateway->id, 'Transaction completed successfully! The transaction response is: ' . print_r( $data, true ) );
-			}
-
-			return $data;
-		}
+		return $response;
 	}
 
 	/**
 	 * Generate the transaction data.
 	 *
-	 * @param  WC_Order $order  Order data.
+	 * @param  array $data  Order data.
 	 *
-	 * @return array            Transaction data.
+	 * @return array Transaction data.
 	 */
-	public function generate_transaction_data( $order ) {
+	public function generate_transaction_data( $data ) {
 		// Set the request data.
-		$data = array(
-			'api_key'      			=> $this->gateway->api_key,
-			'payment_method'		=> 'pix',
-			'pix_expiration_date' 	=> date('Y-m-d', strtotime(  '+' . $this->gateway->expiration_days . ' days', current_time('timestamp') ) ),
-			'amount'       			=> $order->get_total() * 100,
-			'postback_url' 			=> WC()->api_request_url( $this->gateway->id ),
-			'customer'     			=> array(
-				'name'  			=> trim( $order->billing_first_name . ' ' . $order->billing_last_name ),
-				'email' 			=> $order->billing_email,
-			),
-			'metadata'     			=> array(
-				'order_number' => $order->get_order_number(),
-			),
+
+		$cpf = Str::onlyNumber( $data['cpf'] );
+
+		preg_match( '/\(([0-9]{2})\)(.+)/', $data['phone'], $matches );
+
+		$phone_code = $matches[1];
+		$phone_number = Str::onlyNumber( $matches[2] );
+
+		$date = preg_replace( '/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/', '$3-$2-$1', $data['nasc'] );
+
+		$gendata = array(
+			'api_key' => $this->gateway->api_key,
+			'plan_id' => $data['plan_id'],
+			'payment_method' => 'credit_card',
+			'card_number' => Str::onlyNumber( $data['cardnumber'] ),
+			'card_holder_name' => $data['ccname'],
+			'card_expiration_date' => Str::onlyNumber( $data['exp-date'] ),
+			'card_cvv' => $data['cvv'],
+			'postback_url' => 'http://postbacj.url',
+			'customer' => [
+			  'email' => $data['email'],
+			  'name' => $data['firstname'] . ' ' . $data['lastname'],
+			  'document_number' => $cpf,
+			  'address' => [
+				'street' => $data['address'],
+				'street_number' => $data['address_number'],
+				'complementary' => $data['address_2'],
+				'neighborhood' => $data['neighborhood'],
+				'zipcode' => Str::onlyNumber( $data['zipcode'] )
+			  ],
+			  'phone' => [
+				'ddd' => $phone_code,
+				'number' => $phone_number
+			  ],
+			  'gender' => 'other',
+			  'born_at' => $date,
+			],
+			'metadata' => [
+			  'plan_id' => 1
+			]
 		);
 
-		// Phone.
-		if ( ! empty( $order->billing_phone ) ) {
-			$phone = $this->only_numbers( $order->billing_phone );
-
-			$data['customer']['phone'] = array(
-				'ddd'    => substr( $phone, 0, 2 ),
-				'number' => substr( $phone, 2 ),
-			);
-		}
-		
-		// Set the document number.
-		if ( class_exists( 'Extra_Checkout_Fields_For_Brazil' ) ) {
-			$wcbcf_settings = get_option( 'wcbcf_settings' );
-			$person_type    = (string) $wcbcf_settings['person_type'];
-			if ( '0' !== $person_type ) {
-				if ( ( '1' === $person_type && '1' === $order->billing_persontype ) || '2' === $person_type ) {
-					$data['customer']['document_number'] = $this->only_numbers( $order->billing_cpf );
-				}
-
-				if ( ( '1' === $person_type && '2' === $order->billing_persontype ) || '3' === $person_type ) {
-					$data['customer']['name']            = $order->billing_company;
-					$data['customer']['document_number'] = $this->only_numbers( $order->billing_cnpj );
-				}
-			}
-		} else {
-			if ( ! empty( $order->billing_cpf ) ) {
-				$data['customer']['document_number'] = $this->only_numbers( $order->billing_cpf );
-			}
-			if ( ! empty( $order->billing_cnpj ) ) {
-				$data['customer']['name']            = $order->billing_company;
-				$data['customer']['document_number'] = $this->only_numbers( $order->billing_cnpj );
-			}
-		}
-
-		// Set the customer gender.
-		if ( ! empty( $order->billing_sex ) ) {
-			$data['customer']['sex'] = strtoupper( substr( $order->billing_sex, 0, 1 ) );
-		}
-
-		// Set the customer birthdate.
-		if ( ! empty( $order->billing_birthdate ) ) {
-			$birthdate = explode( '/', $order->billing_birthdate );
-
-			$data['customer']['born_at'] = $birthdate[1] . '-' . $birthdate[0] . '-' . $birthdate[2];
-		}
-
 		// Add filter for Third Party plugins.
-		return apply_filters( 'wc_pagarme_pix_payment_transaction_data', $data , $order );
+		return apply_filters( 'rsp_pagarme_transaction_data', $gendata, $data );
 	}
 
-	/**
-	 * Process regular payment.
-	 *
-	 * @param int $order_id Order ID.
-	 *
-	 * @return array Redirect data.
-	 */
-	public function process_regular_payment( $order_id ) {
-		$order = wc_get_order( $order_id );
 
-		if ( $this->gateway->is_debug() ) {
-			$this->gateway->log->add( $this->gateway->id, 'API PagarmePix: Init process payment' );
+	public function create_subscription( $plan_id, $customer_data )
+	{
+		global $wpdb;
+
+		$plans = [
+            1 => '637088',
+            2 => '637089'
+        ];
+
+        $customer_data['plan_id'] = $plans[$plan_id];
+		
+		$data = $this->generate_transaction_data( $customer_data );
+
+		$subscription = $this->do_subscription( $data );
+		
+		$validator = new ValidatorData();
+
+		if( isset( $subscription['errors'] ) ){
+
+			foreach( $subscription['errors'] as $key => $error ){
+				$validator->addFailure( $key, $error['message'] );
+			}
+		}else{
+			//Success
+
+			$wpdb->insert( $wpdb->prefix .  \INFIXS_RSP_PLUGIN_PREFIX . 'subscribers', [
+				'user_id' => 0,
+				'payment_method' => 'credit_card',
+				'email' => $data['customer']['email'],
+				'first_name' => $customer_data['firstname'],
+				'last_name' => $customer_data['lastname'],
+				'document_number' => $data['customer']['document_number'],
+				'status' => $subscription['status'],
+				'gateway' => $this->gateway->id
+			] );
+
+			$subscriber_id = $wpdb->insert_id;
+
+			$wpdb->insert( $wpdb->prefix .  \INFIXS_RSP_PLUGIN_PREFIX . 'subscriber_cards', [
+				'subscriber_id' => $subscriber_id,
+				'last_digits' => Str::substr( $data['card_number'], -4),
+				'first_digits' => Str::substr( $data['card_number'], 0, 6),
+				'holder_name' => $data['card_holder_name'],
+				'expiration_date' => $data['card_expiration_date'],
+				'card_hash' => $subscription['card']['id'],
+				'brand' => $subscription['card']['brand']
+			] );
+
+			$card_id = $wpdb->insert_id;
+
+			$wpdb->update( $wpdb->prefix .  \INFIXS_RSP_PLUGIN_PREFIX . 'subscribers', [
+				'default_card' => $card_id
+			],[
+				'id' => $subscriber_id
+			] );
+			
 		}
 
-		$data        = $this->generate_transaction_data( $order );
-		$transaction = $this->do_transaction( $order, $data );
-
-		if ( isset( $transaction['errors'] ) ) {
-			foreach ( $transaction['errors'] as $error ) {
-				wc_add_notice( $error['message'], 'error' );
-			}
-
-			return array(
-				'result' => 'fail',
-			);
-		} else {
-
-			if ( extension_loaded('mbstring') && version_compare(phpversion(), "7.4", ">=") ) {
-				$upload = wp_upload_dir();
-				$upload_folder = sprintf('%s/%s/qr-codes/', $upload['basedir'], \WC_PAGARME_PIX_PAYMENT_DIR_NAME);
-				$upload_url = sprintf('%s/%s/qr-codes/', $upload['baseurl'], \WC_PAGARME_PIX_PAYMENT_DIR_NAME);
-
-				if ( !file_exists( $upload_folder ) )
-				{ wp_mkdir_p($upload_folder); }
-
-				$qrcode_file_name = date('Ymd', strtotime( current_time('mysql') ) ) . $transaction['id'] . '.png';
-				(new QRCode)->render( $transaction['pix_qr_code'], $upload_folder . $qrcode_file_name );			
-
-				update_post_meta( $order_id, '_wc_pagarme_pix_payment_qr_code_image', $upload_url . $qrcode_file_name );
-			}else{
-				update_post_meta( $order_id, '_wc_pagarme_pix_payment_qr_code_image', sprintf("https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=%s&choe=UTF-8", urlencode( $transaction['pix_qr_code'] ) ) );
-			}
-			
-			update_post_meta( $order_id, '_wc_pagarme_pix_payment_qr_code', $transaction['pix_qr_code'] );
-			update_post_meta( $order_id, '_wc_pagarme_pix_payment_expiration_date', date('Y-m-d', strtotime(  '+' . $this->gateway->expiration_days . ' days', current_time('timestamp') ) ) );
-			update_post_meta( $order_id, '_wc_pagarme_pix_payment_expiration_days', $this->gateway->expiration_days );
-			update_post_meta( $order_id, '_wc_pagarme_pix_payment_transaction_id', $transaction['id'] );
-			update_post_meta( $order_id, '_wc_pagarme_pix_payment_paid', 'no' );
-			
-			$this->process_order_status( $order, $transaction['status'] );
-
-			// Empty the cart.
-			WC()->cart->empty_cart();
-
-			// Redirect to thanks page.
-			return array(
-				'result'   => 'success',
-				'redirect' => $this->gateway->get_return_url( $order ),
-			);
-		}
+		return $validator;
 	}
 
 	/**
@@ -267,37 +215,14 @@ class PagarmeApi {
 	 * @return bool
 	 */
 	public function check_fingerprint( $ipn_response ) {
-		if ( isset( $ipn_response['id'] ) && isset( $ipn_response['current_status'] ) && isset( $ipn_response['fingerprint'] ) ) {
-			$fingerprint = sha1( $ipn_response['id'] . '#' . $this->gateway->api_key );
 
-			if ( $fingerprint === $ipn_response['fingerprint'] ) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	/**
 	 * IPN handler.
 	 */
 	public function ipn_handler() {
-		@ob_clean();
 
-		if ( $this->gateway->is_debug() ) {
-			$this->gateway->log->add( $this->gateway->id, 'Retornou um POSTBACK' );
-		}
-
-		$ipn_response = ! empty( $_POST ) ? $_POST : false;
-
-		if ( $ipn_response && $this->check_fingerprint( $ipn_response ) ) {
-			header( 'HTTP/1.1 200 OK' );
-
-			$this->process_successful_ipn( $ipn_response );
-			exit;
-		} else {
-			wp_die( esc_html__( 'Pagar.me PIX Request Failure', 'wc-pagarme-pix-payment' ), '', array( 'response' => 401 ) );
-		}
 	}
 
 	/**
@@ -306,25 +231,7 @@ class PagarmeApi {
 	 * @param array $posted Posted data.
 	 */
 	public function process_successful_ipn( $posted ) {
-		global $wpdb;
-		$posted   = wp_unslash( $posted );
 
-		if ( $this->gateway->is_debug() ) {
-			$this->gateway->log->add( $this->gateway->id, 'Sucesso: ID = ' . $posted['id'] );
-			
-		}
-
-		
-		$order_id = absint( $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_wc_pagarme_pix_payment_transaction_id' AND meta_value = %d", $posted['id'] ) ) );
-		$order    = wc_get_order( $order_id );
-		$status   = sanitize_text_field( $posted['current_status'] );
-
-		if ( $order && $order->id === $order_id && $posted['transaction']['payment_method'] == 'pix' ) {
-			if ( $this->gateway->is_debug() ) {
-				$this->gateway->log->add( $this->gateway->id, print_r($posted, true) );
-			}
-			$this->process_order_status( $order, $status );
-		}
 	}
 
 	/**
@@ -334,39 +241,7 @@ class PagarmeApi {
 	 * @param string   $status Transaction status.
 	 */
 	public function process_order_status( $order, $status ) {
-		if ( $this->gateway->is_debug() ) {
-			$this->gateway->log->add( $this->gateway->id, 'PIX: Payment status for order ' . $order->get_order_number() . ' is now: ' . $status );
-		}
 
-		switch ( $status ) {
-			case 'waiting_payment' :
-				$order->update_status( 'on-hold', __( 'Aguardando pagamento via PIX.', 'wc-pagarme-pix-payment' ) );
-				break;
-			case 'paid' :
-				if ( ! in_array( $order->get_status(), array( 'processing', 'completed' ), true ) ) {
-					$order->add_order_note( __( 'Pagar.me PIX: Transação paga.', 'wc-pagarme-pix-payment' ) );
-				}
-
-				update_post_meta( $order->get_id(), '_wc_pagarme_pix_payment_paid', 'yes' );
-				
-				// Changing the order for processing and reduces the stock.
-				$order->payment_complete();
-				
-
-				break;
-			default :
-				break;
-		}
 	}
 
-	/**
-	 * Only numbers.
-	 *
-	 * @param  string|int $string String to convert.
-	 *
-	 * @return string|int
-	 */
-	protected function only_numbers( $string ) {
-		return preg_replace( '([^0-9])', '', $string );
-	}
 }
