@@ -1,9 +1,9 @@
 <?php
-namespace Infixs\Routing;
+namespace InfixsRSP\Routing;
 
-use Infixs\Http\Request;
-use Infixs\Support\Str;
-use Infixs\WP;
+use InfixsRSP\Http\Request;
+use InfixsRSP\Support\Str;
+use InfixsRSP\WP;
 
 //Prevent direct file call
 defined( 'ABSPATH' ) || exit;
@@ -56,6 +56,21 @@ class Route
         return $instance;
     }
 
+    public function name( $name )
+    {
+        $this->name = $name;
+    }
+
+    public function get_name()
+    {
+        return $this->name;
+    }
+
+    public function get_url()
+    {
+        return $this->url;
+    }
+
     public function query_vars( $vars )
     {
         if( !in_array( $this->var_name, $vars ) )
@@ -105,5 +120,20 @@ class Route
         //WP::add_filter( 'template_include', self::$instance[$slug], 'get_template' );
 
         return self::$instance[$slug];
+    }
+
+    /**
+     * Get Instance By Route Name
+     *
+     * @param string $name
+     * @return Route
+     */
+    public static function getInstanceByName( $name )
+    {
+        foreach( self::$instance as $instance ){
+            if( $instance->name == $name )
+                return $instance;
+        }
+        return false;
     }
 }

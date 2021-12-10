@@ -1,8 +1,8 @@
 <?php
 //Prevent direct file call
 
-use Infixs\Support\Str;
-use Infixs\Http\Request;
+use InfixsRSP\Support\Str;
+use InfixsRSP\Http\Request;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -93,13 +93,12 @@ include \INFIXS_RSP_TEMPLATE_PATH . 'front/layout/header.php';
             <input type="hidden" name="firstname" value="<?php echo esc_html( $request->input('firstname') ); ?>"/>
             <input type="hidden" name="lastname" value="<?php echo esc_html( $request->input('lastname') ); ?>"/>
             <input type="hidden" name="phone" value="<?php echo esc_html( $request->input('phone') ); ?>"/>
-            <input type="hidden" name="cpf" value="<?php echo esc_html( $request->input('cpf') ); ?>"/>
-            <input type="hidden" name="nasc" value="<?php echo esc_html( $request->input('nasc') ); ?>"/>
+            <input type="hidden" name="document_number" value="<?php echo esc_html( $request->input('document_number') ); ?>"/>
+            <input type="hidden" name="birthdate" value="<?php echo esc_html( $request->input('birthdate') ); ?>"/>
             <input type="hidden" name="email" value="<?php echo esc_html( $request->input('email') ); ?>"/>
-
-            <button type="submit" class="btn btn-primary" name="sendcard" id="sendcard" value="1"><?php echo __( 'Continue', 'recurring-subscription-plans' ); ?></button>
-            <button class="btn btn-primary" name="backstep" value="1"><?php echo __( 'Voltar', 'recurring-subscription-plans' ); ?></button>
-        </form>
+            <input type="hidden" name="gender" value="<?php echo esc_html( $request->input('gender') ); ?>"/>
+            <button type="submit" class="btn btn-primary float-right" name="sendcard" id="sendcard" value="1"><?php echo __( 'Continue', 'recurring-subscription-plans' ); ?></button>
+        </form>          
     </div>
 </div>
 <?php

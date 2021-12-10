@@ -1,9 +1,9 @@
 <?php
-namespace Infixs\Routing;
+namespace InfixsRSP\Routing;
 
-use Infixs\Http\Request;
-use Infixs\Support\Str;
-use Infixs\WP;
+use InfixsRSP\Http\Request;
+use InfixsRSP\Support\Str;
+use InfixsRSP\WP;
 
 //Prevent direct file call
 defined( 'ABSPATH' ) || exit;
@@ -51,6 +51,11 @@ class MenuPage
         WP::add_action('admin_menu', $instance, 'register_menu_page' );
 
         return $instance;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
     }
 
     /**

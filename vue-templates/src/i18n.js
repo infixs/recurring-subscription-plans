@@ -1,3 +1,4 @@
-export const __ = function(name, domain = 'recurring-subscription-plans'){
-    return import.meta.env.DEV ? name : wp.i18n.__(name, domain)
+export const __ = function(name, domain = ''){
+    let textdomain = import.meta.env.VITE_TEXT_DOMAIN || domain
+    return import.meta.env.DEV ? name : wp.i18n.__(name, textdomain)
 }

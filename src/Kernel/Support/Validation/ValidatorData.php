@@ -1,7 +1,7 @@
 <?php
-namespace Infixs\Support\Validation;
+namespace InfixsRSP\Support\Validation;
 
-use Infixs\Support\MessageBag;
+use InfixsRSP\Support\MessageBag;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -39,6 +39,16 @@ class ValidatorData
      * @return boolean
      */
     public function passes()
+    {
+        return $this->passed || false;
+    }
+
+    /**
+     * Determine if the data success the validation rules.
+     *
+     * @return boolean
+     */
+    public function success()
     {
         return $this->passed || false;
     }

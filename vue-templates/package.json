@@ -5,14 +5,19 @@
     "dev": "APP_ENV=development vite",
     "build": "vite build",
     "build:watch": "vite build --watch",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "translate": "po2json ../languages/recurring-subscription-plans-pt_BR.po ../languages/recurring-subscription-plans-pt_BR-rsp-main.json -f jed1.x"
   },
   "dependencies": {
     "@wordpress/i18n": "^4.2.2",
+    "axios": "^0.24.0",
+    "maska": "^1.5.0",
+    "po2json": "^0.4.5",
     "vue": "^3.2.6",
     "vue-router": "^4.0.11"
   },
   "devDependencies": {
+    "@vicons/ionicons5": "^0.11.0",
     "@vitejs/plugin-vue": "^1.6.1",
     "@vue/compiler-sfc": "^3.2.6",
     "naive-ui": "^2.19.1",

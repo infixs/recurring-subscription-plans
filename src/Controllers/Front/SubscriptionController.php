@@ -1,10 +1,13 @@
 <?php
 namespace RecurringSubscriptionPlans\Controllers\Front;
 
-use Infixs\Controller;
-use Infixs\Http\Request;
-use Infixs\Http\Response;
-use Infixs\Support\Validation\Validator;
+use InfixsRSP\Controller;
+use InfixsRSP\Http\Redirect;
+use InfixsRSP\Http\Request;
+use InfixsRSP\Http\Response;
+use InfixsRSP\Support\Date;
+use InfixsRSP\Support\Str;
+use InfixsRSP\Support\Validation\Validator;
 use RecurringSubscriptionPlans\Database\Models\Plan;
 use RecurringSubscriptionPlans\Helpers\Subscription;
 
@@ -68,21 +71,16 @@ class SubscriptionController extends Controller
 
     public function basicForm( Request $request ){
 
-        $firstname = $_POST['firstname'];
-        $lastname = $_POST['lastname'];
-        $phone = $_POST['phone'];
-        $nasc = $_POST['nasc'];
-        $email = $_POST['email'];
-        //$password = $_POST['password'];
-        //$password_confirm = $_POST['password_confirm'];
+        global $wpdb;
 
         $validate = Validator::make( $_POST, [
             'firstname' => 'required',
             'lastname' => 'required',
-            'phone' => 'required',
-            'cpf' => 'required',
-            'nasc' => 'required',
-            'email' => 'required',
+            'phone' => 'required|cellphone',
+            'document_number' => 'required|document_number',
+            'birthdate' => 'required|date',
+            'email' => 'required|email',
+            'gender' => 'required',
             //'password' => 'required',
             //'password_confirm' => 'required'
         ]);
@@ -91,9 +89,24 @@ class SubscriptionController extends Controller
         $plan = Plan::getPlan($plan_id, ['name', 'price']);
         $plan = $plan ? $plan : null;
 
+        $validate = apply_filters('rsp_subscription_basic_form_validate', $validate, $request);
+        $validate = apply_filters('rsp_subscription_form_validate', $validate, $request);
 
         if( !$validate->fails() && !$request->input('backstep') )
         {
+
+			$wpdb->insert( $wpdb->prefix .  \INFIXS_RSP_PLUGIN_PREFIX . 'leads', [
+				'plan_id' => $plan_id,
+				'payment_method' => 'credit_card',
+				'email' => $request->input('email'),
+				'first_name' => $request->input('firstname'),
+				'phone_number' => Str::onlyNumber( $request->input('phone') ),
+				'gender' => $request->input('gender'),
+				'last_name' => $request->input('lastname'),
+				'birth_date' => Date::toFormat('d/m/Y', 'Y-m-d', $request->input('birthdate')),
+				'document_number' => $request->input('document_number')
+			] );
+
             return $this->view( 'front.subscription-payment', compact('validate', 'plan') );
         }
 
@@ -108,13 +121,14 @@ class SubscriptionController extends Controller
         $validate = Validator::make( $_POST, [
             'firstname' => 'required',
             'lastname' => 'required',
-            'phone' => 'required',
-            'cpf' => 'required',
-            'nasc' => 'required',
-            'email' => 'required',
+            'phone' => 'required|cellphone',
+            'document_number' => 'required|document_number',
+            'birthdate' => 'required|date',
+            'email' => 'required|email',
             'ccname' => 'required',
             'cardnumber' => 'required',
             'exp-date' => 'required',
+            'gender' => 'required',
             'cvv' => 'required',
         ], null, $this->inputNames);
         
@@ -122,6 +136,8 @@ class SubscriptionController extends Controller
         $plan_id = (int) $request->input('plan');
         $plan = Plan::getPlan($plan_id, ['name', 'price']);
         $plan = $plan ? $plan : null;
+
+        $validate = apply_filters('rsp_subscription_form_validate', $validate, $request);
 
         if( !$validate->fails() && !$request->input('backstep') ){
             return $this->view( 'front.subscription-address', compact('validate', 'plan') );
@@ -138,12 +154,13 @@ class SubscriptionController extends Controller
         $validate = Validator::make( $_POST, [
             'firstname' => 'required',
             'lastname' => 'required',
-            'phone' => 'required',
-            'cpf' => 'required',
-            'nasc' => 'required',
-            'email' => 'required',
+            'phone' => 'required|cellphone',
+            'document_number' => 'required|document_number',
+            'birthdate' => 'required|date',
+            'email' => 'required|email',
             'ccname' => 'required',
             'cardnumber' => 'required',
+            'gender' => 'required',
             'exp-date' => 'required',
             'cvv' => 'required',
             'zipcode' => 'required',
@@ -159,10 +176,14 @@ class SubscriptionController extends Controller
         $plan = Plan::getPlan($plan_id, ['name', 'price']);
         $plan = $plan ? $plan : null;
 
+        $validate = apply_filters('rsp_subscription_form_validate', $validate, $request);
+
         if( !$validate->fails() ){
             $validate = Subscription::makeSubscription( $plan_id, $request->all() );
 
-            return $this->view( 'front.subscription-address', compact('validate', 'plan') );
+            if( !$validate->fails() ){
+                Redirect::route('myaccount');
+            }
         }
 
         return $this->view( 'front.subscription-address', compact('validate', 'plan') );

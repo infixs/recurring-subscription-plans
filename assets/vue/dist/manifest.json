@@ -1,37 +1,37 @@
 {
   "src/main.js": {
-    "file": "assets/main.4295c923.js",
+    "file": "assets/main.5cac5c56.js",
     "src": "src/main.js",
     "isEntry": true,
     "imports": [
-      "_vendor.064d170f.js"
+      "_vendor.bb9f3b27.js"
     ],
     "dynamicImports": [
       "src/pages/subscribers/Main.vue",
       "src/pages/subscribers/About.vue"
     ]
   },
-  "_vendor.064d170f.js": {
-    "file": "assets/vendor.064d170f.js"
+  "_vendor.bb9f3b27.js": {
+    "file": "assets/vendor.bb9f3b27.js"
   },
   "src/pages/subscribers/Main.vue": {
-    "file": "assets/Main.15348a51.js",
+    "file": "assets/Main.502ab2d7.js",
     "src": "src/pages/subscribers/Main.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_vendor.064d170f.js"
+      "_vendor.bb9f3b27.js"
     ],
     "css": [
-      "assets/Main.4007d0c4.css"
+      "assets/Main.d72600e2.css"
     ]
   },
   "src/pages/subscribers/About.vue": {
-    "file": "assets/About.a1a58502.js",
+    "file": "assets/About.83dffc14.js",
     "src": "src/pages/subscribers/About.vue",
     "isDynamicEntry": true,
     "imports": [
       "src/main.js",
-      "_vendor.064d170f.js"
+      "_vendor.bb9f3b27.js"
     ]
   }
 }

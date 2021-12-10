@@ -1,9 +1,9 @@
 <?php
-namespace Infixs;
+namespace InfixsRSP;
 
-use Infixs\WP;
-use Infixs\Support\Str;
-use Infixs\Config\App;
+use InfixsRSP\WP;
+use InfixsRSP\Support\Str;
+use InfixsRSP\Config\App;
 
 //Prevent direct file call
 defined( 'ABSPATH' ) || exit;

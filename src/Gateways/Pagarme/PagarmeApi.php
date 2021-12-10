@@ -1,8 +1,10 @@
 <?php
 namespace RecurringSubscriptionPlans\Gateways\Pagarme;
 
-use Infixs\Support\Str;
-use Infixs\Support\Validation\ValidatorData;
+use InfixsRSP\Routing\Routes;
+use InfixsRSP\Support\Date;
+use InfixsRSP\Support\Str;
+use InfixsRSP\Support\Validation\ValidatorData;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -100,14 +102,14 @@ class PagarmeApi {
 	public function generate_transaction_data( $data ) {
 		// Set the request data.
 
-		$cpf = Str::onlyNumber( $data['cpf'] );
+		$document_number = Str::onlyNumber( $data['document_number'] );
 
 		preg_match( '/\(([0-9]{2})\)(.+)/', $data['phone'], $matches );
 
 		$phone_code = $matches[1];
 		$phone_number = Str::onlyNumber( $matches[2] );
 
-		$date = preg_replace( '/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/', '$3-$2-$1', $data['nasc'] );
+		$date = preg_replace( '/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/', '$3-$2-$1', $data['birthdate'] );
 
 		$gendata = array(
 			'api_key' => $this->gateway->api_key,
@@ -117,11 +119,11 @@ class PagarmeApi {
 			'card_holder_name' => $data['ccname'],
 			'card_expiration_date' => Str::onlyNumber( $data['exp-date'] ),
 			'card_cvv' => $data['cvv'],
-			'postback_url' => 'http://postbacj.url',
+			'postback_url' => Routes::api('postback'),
 			'customer' => [
 			  'email' => $data['email'],
 			  'name' => $data['firstname'] . ' ' . $data['lastname'],
-			  'document_number' => $cpf,
+			  'document_number' => $document_number,
 			  'address' => [
 				'street' => $data['address'],
 				'street_number' => $data['address_number'],
@@ -150,9 +152,14 @@ class PagarmeApi {
 	{
 		global $wpdb;
 
-		$plans = [
+		/*$plans = [
             1 => '637088',
             2 => '637089'
+        ];*/ //Test ambient
+
+		$plans = [
+            1 => '1424299',
+            2 => '1578797'
         ];
 
         $customer_data['plan_id'] = $plans[$plan_id];
@@ -173,12 +180,23 @@ class PagarmeApi {
 
 			$wpdb->insert( $wpdb->prefix .  \INFIXS_RSP_PLUGIN_PREFIX . 'subscribers', [
 				'user_id' => 0,
+				'plan_id' => $plan_id,
 				'payment_method' => 'credit_card',
 				'email' => $data['customer']['email'],
 				'first_name' => $customer_data['firstname'],
+				'phone_number' => Str::onlyNumber($customer_data['phone']),
+				'gender' => $customer_data['gender'],
 				'last_name' => $customer_data['lastname'],
+				'birth_date' => Date::toFormat('d/m/Y', 'Y-m-d', $customer_data['birthdate']),
 				'document_number' => $data['customer']['document_number'],
 				'status' => $subscription['status'],
+				'zip_code' => $customer_data['zipcode'],
+				'address' => $customer_data['address'],
+				'address_number' => $customer_data['address_number'],
+				'address2' => $customer_data['address_2'],
+				'state' => $customer_data['state'],
+				'neighborhood' => $customer_data['neighborhood'],
+				'city' => $customer_data['city'],
 				'gateway' => $this->gateway->id
 			] );
 

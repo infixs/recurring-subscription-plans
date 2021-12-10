@@ -1,5 +1,5 @@
 <?php
-namespace Infixs\Config;
+namespace InfixsRSP\Config;
 
 class App
 {

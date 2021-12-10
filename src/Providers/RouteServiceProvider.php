@@ -1,7 +1,7 @@
 <?php
 namespace RecurringSubscriptionPlans\Providers;
 
-use Infixs\ServiceProvider;
+use InfixsRSP\ServiceProvider;
 
 //Prevent direct file call
 defined( 'ABSPATH' ) || exit;
@@ -19,5 +19,6 @@ class RouteServiceProvider extends ServiceProvider
     public static function boot()
     {
         include \INFIXS_RSP_PLUGIN_PATH . 'src/Routes/Web.php';
+        include \INFIXS_RSP_PLUGIN_PATH . 'src/Routes/Api.php';
     }
 }

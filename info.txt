@@ -10,9 +10,16 @@ Teste
 API
 ak_test_R3vdcvHyzvB6lVuVA63phiFcYYG1MQ
 
+Generate .pot
+wp i18n make-pot . languages/recurring-subscription-plans.pot
+
+Update .po 
+msgmerge --update --no-fuzzy-matching --backup=off ./languages/recurring-subscription-plans-pt_BR.po ./languages/recurring-subscription-plans.pot
+
 
 Generate .mo
 msgfmt -o languages/recurring-subscription-plans-pt_BR.mo languages/recurring-subscription-plans-pt_BR.po
 
-Generate .pot
-wp i18n make-pot . languages/recurring-subscription-plans.pot
+
+Gernerate json
+po2json ./languages/recurring-subscription-plans-pt_BR.po ./languages/recurring-subscription-plans-pt_BR-rsp-main.json -f jed1.x

@@ -1,5 +1,5 @@
 <?php
-namespace Infixs\Support;
+namespace InfixsRSP\Support;
 
 //Prevent direct file call
 defined( 'ABSPATH' ) || exit;

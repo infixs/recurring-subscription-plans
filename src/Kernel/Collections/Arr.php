@@ -1,5 +1,5 @@
 <?php
-namespace Infixs\Collections;
+namespace InfixsRSP\Collections;
 
 defined( 'ABSPATH' ) || exit; 
 

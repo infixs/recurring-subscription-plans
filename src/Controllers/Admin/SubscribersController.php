@@ -1,11 +1,11 @@
 <?php
 namespace RecurringSubscriptionPlans\Controllers\Admin;
 
-use Infixs\Controller;
-use Infixs\Http\Request;
-use Infixs\Support\Validation\Validator;
+use InfixsRSP\Controller;
+use InfixsRSP\Http\Request;
+use InfixsRSP\Support\Validation\Validator;
 use RecurringSubscriptionPlans\Database\Models\Plan;
-use Infixs\WP;
+use InfixsRSP\WP;
 
 defined( 'ABSPATH' ) || exit;
 

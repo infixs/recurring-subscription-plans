@@ -1,8 +1,8 @@
 <?php
-namespace Infixs\Support;
+namespace InfixsRSP\Support;
 
-use Infixs\Collections\Arr;
-use Infixs\Collections\Collection;
+use InfixsRSP\Collections\Arr;
+use InfixsRSP\Collections\Collection;
 
 include(dirname(__DIR__).'/Collections/helpers.php');
 

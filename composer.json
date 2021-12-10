@@ -16,7 +16,7 @@
     "autoload": {
         "psr-4": {
             "RecurringSubscriptionPlans\\": "src/",
-            "Infixs\\": "src/Kernel/"
+            "InfixsRSP\\": "src/Kernel/"
         }
     }
 }

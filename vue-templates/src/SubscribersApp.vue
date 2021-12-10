@@ -1,12 +1,21 @@
 <template>
   <div class="wrap">
-    <router-view></router-view>
+    <n-message-provider>
+      <n-dialog-provider>
+        <router-view></router-view>
+      </n-dialog-provider>
+    </n-message-provider>
   </div>
 </template>
 
 <script>
-export default {
+import {NMessageProvider, NDialogProvider} from 'naive-ui'
 
+export default {
+  components: {
+    NMessageProvider,
+    NDialogProvider
+  }
 }
 </script>
 

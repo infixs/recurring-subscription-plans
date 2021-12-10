@@ -5,8 +5,9 @@ defined( 'ABSPATH' ) || exit;
 <html <?php language_attributes(); ?>>
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
+<meta name="viewport" content="width=device-width">
 <link rel='stylesheet' id='bootstrap'  href='<?php echo \INFIXS_RSP_ASSETS_URL . 'bootstrap/css/bootstrap.min.css';?>' media='all' />
-<link rel='stylesheet' id='bootstrap'  href='<?php echo \INFIXS_RSP_ASSETS_URL . 'css/public/subscription.css';?>' media='all' />
+<link rel='stylesheet' id='bootstrap'  href='<?php echo \INFIXS_RSP_ASSETS_URL . 'css/public/subscription.css?version=1.0';?>' media='all' />
 <script type='text/javascript' src='<?php echo \INFIXS_RSP_ASSETS_URL . 'bootstrap/js/bootstrap.min.js';?>' id='bootstrap-js'></script>
 <script type='text/javascript' src='<?php echo \INFIXS_RSP_ASSETS_URL . 'js/public/jquery-3.6.0.min.js';?>' id='jquery-js'></script>
 <script type='text/javascript' src='<?php echo \INFIXS_RSP_ASSETS_URL . 'js/public/jquery.mask.js';?>' id='jquery-mask-js'></script>

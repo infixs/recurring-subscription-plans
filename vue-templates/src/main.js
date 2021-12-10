@@ -1,7 +1,10 @@
 import { createApp } from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 import App from './SubscribersApp.vue'
-
 import { createRouter, createWebHashHistory } from 'vue-router'
+
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL + 'wp-json/rsp/v1/'
 
 const routes = [
     { 
@@ -20,4 +23,4 @@ const router = createRouter({
     routes,
 })
 
-createApp(App).use(router).mount('#app')
+createApp(App).use(VueAxios, axios).use(router).mount('#app')

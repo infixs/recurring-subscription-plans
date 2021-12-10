@@ -1,8 +1,8 @@
 <?php
 //Prevent direct file call
 
-use Infixs\Support\Str;
-use Infixs\Http\Request;
+use InfixsRSP\Support\Str;
+use InfixsRSP\Http\Request;
 
 $request = new Request();
 
@@ -81,20 +81,30 @@ include \INFIXS_RSP_TEMPLATE_PATH . 'front/layout/header.php';
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
+                                <label class="form-label" for="gender"><?php echo __( 'Gender', 'recurring-subscription-plans' ); ?></label>
+                                <select name="gender" id="gender" class="state_select form-input" autocomplete="address-level1" data-placeholder="Selecione uma opção…" data-input-classes="">
+        						    <option value=""></option>
+                                    <option value="male" <?php echo $request->old('gender') == 'male' ? 'selected' : ''; ?>>Masculino</option>
+                                    <option value="female" <?php echo $request->old('gender') == 'female' ? 'selected' : ''; ?>>Feminino</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 <label class="form-label" for="phone"><?php echo __( 'Cell Phone', 'recurring-subscription-plans' ); ?></label>
                                 <input id="phone" name="phone" class="form-input celphone" type="text" autocomplete="no" value="<?php echo $request->old('phone'); ?>" maxlength="15">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="form-label" for="cpf"><?php echo __( 'Document number', 'recurring-subscription-plans' ); ?></label>
-                                <input id="cpf" name="cpf" class="form-input cpf" type="text" autocomplete="no" value="<?php echo $request->old('cpf'); ?>" maxlength="14">
+                                <label class="form-label" for="document_number"><?php echo __( 'Document number', 'recurring-subscription-plans' ); ?></label>
+                                <input id="document_number" name="document_number" class="form-input documentnumber" type="text" autocomplete="no" value="<?php echo $request->old('document_number'); ?>" maxlength="14">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="form-label" for="nasc"><?php echo __( 'Birth Date', 'recurring-subscription-plans' ); ?></label>
-                                <input id="nasc" name="nasc" class="form-input date" type="text" value="<?php echo $request->old('nasc'); ?>" autocomplete="no">
+                                <label class="form-label" for="birthdate"><?php echo __( 'Birth Date', 'recurring-subscription-plans' ); ?></label>
+                                <input id="birthdate" name="birthdate" class="form-input date" type="text" value="<?php echo $request->old('birthdate'); ?>" autocomplete="no">
                             </div>
                         </div>
                         <div class="col-md-6">

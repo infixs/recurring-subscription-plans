@@ -1,5 +1,5 @@
 <?php
-use Infixs\Collections\Collection;
+use InfixsRSP\Collections\Collection;
 
 
 if (! function_exists('collect')) {

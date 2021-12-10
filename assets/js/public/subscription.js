@@ -20,11 +20,11 @@ jQuery(function($){
         }
       });
 
-    $('form.anim input').focus(function(){
+    $('form.anim input, form.anim select').focus(function(){
         $(this).parents('.form-group').addClass('focused');
     });
     
-    $('form.anim input').blur(function(){
+    $('form.anim input, form.anim select').blur(function(){
         var inputValue = $(this).val();
         if ( inputValue == "" ) {
         $(this).removeClass('filled');
@@ -34,15 +34,15 @@ jQuery(function($){
         }
     }) ;
 
-    $('form.anim input[type=text]').each(function(){
+    $('form.anim input[type=text], form.anim select').each(function(){
         if( $(this).val().length > 0 ){
             $(this).addClass('filled').parents('.form-group').addClass('focused');
         }
     });
 
-    $('form.anim input').first().trigger('focus');
+    $('form.anim input, form.anim select').first().trigger('focus');
 
-    $("input.cpf").mask('000.000.000-00', {reverse: false});
+    $("input.documentnumber").mask('000.000.000-00', {reverse: false});
     $("input.celphone").mask('(00) 00000-0000', {reverse: false});
     $("input.zipcode").mask('00000-000', {reverse: false});
     $("input.date").mask('00/00/0000', {reverse: false});

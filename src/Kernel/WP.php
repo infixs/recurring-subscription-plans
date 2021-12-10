@@ -1,5 +1,5 @@
 <?php
-namespace Infixs;
+namespace InfixsRSP;
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 

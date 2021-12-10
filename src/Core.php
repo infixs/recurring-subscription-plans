@@ -1,7 +1,7 @@
 <?php
 namespace RecurringSubscriptionPlans;
 
-use Infixs\WP;
+use InfixsRSP\WP;
 use RecurringSubscriptionPlans\Database\Migration;
 use RecurringSubscriptionPlans\Providers\RouteServiceProvider;
 

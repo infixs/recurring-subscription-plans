@@ -1,5 +1,5 @@
 <?php
-namespace Infixs\Support;
+namespace InfixsRSP\Support;
 
 //Prevent direct file call
 defined( 'ABSPATH' ) || exit;
@@ -32,8 +32,26 @@ class Str
         return 'R$ ' . number_format( $string, 2, ',', '.' );
     }
 
-    public static function onlyNumber( string $string ){
+    public static function onlyNumber( String $string ){
         return preg_replace( '/[^0-9]/', '', $string );
+    }
+
+    public static function format( String $type, String $value )
+    { 
+        switch( $type )
+        {
+            case 'document_number':
+                if( preg_match('/(\d{3}).?(\d{3}).?(\d{3})-?(\d{2})/', $value, $matches) )
+				    $value = $matches[1] . '.' . $matches[2] . '.' . $matches[3] . '-' . $matches[4] ;
+            break;
+            case 'name':
+                $value = trim($value);
+                $value = strtolower($value);
+                $value = ucfirst($value);
+            break;
+        }
+
+        return $value;
     }
 
     /**

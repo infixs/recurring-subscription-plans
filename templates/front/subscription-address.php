@@ -1,8 +1,8 @@
 <?php
 //Prevent direct file call
 
-use Infixs\Support\Str;
-use Infixs\Http\Request;
+use InfixsRSP\Support\Str;
+use InfixsRSP\Http\Request;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -30,6 +30,7 @@ include \INFIXS_RSP_TEMPLATE_PATH . 'front/layout/header.php';
                                 echo '<li>' . sanitize_text_field($error) . '</li>';
                             }
                             ?>
+                            <li>Está com com problemas? entre em contato conosco <a target="_blank" href="https://api.whatsapp.com/send?phone=5541999685463&text=Estou%20com%20problemas%20para%20me%20cadastrar">clicando aqui</a></li>
                         </span>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
@@ -79,8 +80,8 @@ include \INFIXS_RSP_TEMPLATE_PATH . 'front/layout/header.php';
                         </div>
                         <div class="col-md-4">
                             <div class="form-group focused">
-                                <label class="form-label" for="state"><?php echo __( 'Address 2', 'recurring-subscription-plans' ); ?></label>
-                                <select name="state" id="state" class="state_select" value="<?php echo $request->old('state'); ?>" autocomplete="address-level1" data-placeholder="Selecione uma opção…" data-input-classes="">
+                                <label class="form-label" for="state"><?php echo __( 'State', 'recurring-subscription-plans' ); ?></label>
+                                <select name="state" id="state" class="state_select form-input" value="<?php echo $request->old('state'); ?>" autocomplete="address-level1" data-placeholder="Selecione uma opção…" data-input-classes="">
         						    <option value="">Selecione uma opção…</option><option value="AC">Acre</option><option value="AL">Alagoas</option><option value="AP">Amapá</option><option value="AM">Amazonas</option><option value="BA">Bahia</option><option value="CE">Ceará</option><option value="DF">Distrito Federal</option><option value="ES">Espírito Santo</option><option value="GO">Goiás</option><option value="MA">Maranhão</option><option value="MT">Mato Grosso</option><option value="MS">Mato Grosso do Sul</option><option value="MG">Minas Gerais</option><option value="PA">Pará</option><option value="PB">Paraíba</option><option value="PR">Paraná</option><option value="PE">Pernambuco</option><option value="PI">Piauí</option><option value="RJ">Rio de Janeiro</option><option value="RN">Rio Grande do Norte</option><option value="RS">Rio Grande do Sul</option><option value="RO">Rondônia</option><option value="RR">Roraima</option><option value="SC">Santa Catarina</option><option value="SP">São Paulo</option><option value="SE">Sergipe</option><option value="TO">Tocantins</option>
                                 </select>
                             </div>
@@ -104,14 +105,14 @@ include \INFIXS_RSP_TEMPLATE_PATH . 'front/layout/header.php';
             <input type="hidden" name="firstname" value="<?php echo esc_html( $request->input('firstname') ); ?>"/>
             <input type="hidden" name="lastname" value="<?php echo esc_html( $request->input('lastname') ); ?>"/>
             <input type="hidden" name="phone" value="<?php echo esc_html( $request->input('phone') ); ?>"/>
-            <input type="hidden" name="cpf" value="<?php echo esc_html( $request->input('cpf') ); ?>"/>
-            <input type="hidden" name="nasc" value="<?php echo esc_html( $request->input('nasc') ); ?>"/>
+            <input type="hidden" name="gender" value="<?php echo esc_html( $request->input('gender') ); ?>"/>
+            <input type="hidden" name="document_number" value="<?php echo esc_html( $request->input('document_number') ); ?>"/>
+            <input type="hidden" name="birthdate" value="<?php echo esc_html( $request->input('birthdate') ); ?>"/>
             <input type="hidden" name="email" value="<?php echo esc_html( $request->input('email') ); ?>"/>
             <input type="hidden" name="ccname" value="<?php echo esc_html( $request->input('ccname') ); ?>"/>
             <input type="hidden" name="cardnumber" value="<?php echo esc_html( $request->input('cardnumber') ); ?>"/>
             <input type="hidden" name="exp-date" value="<?php echo esc_html( $request->input('exp-date') ); ?>"/>
             <input type="hidden" name="cvv" value="<?php echo esc_html( $request->input('cvv') ); ?>"/>
-            <input type="button" class="btn btn-primary" name="sendbasic" value="Voltar"></button>
             <button type="submit" class="btn btn-primary" id="sendregister" name="sendregister" value="1"><?php echo __( 'Continue', 'recurring-subscription-plans' ); ?></button>
         </form>
     </div>

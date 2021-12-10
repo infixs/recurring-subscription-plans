@@ -1,7 +1,7 @@
 <?php
 namespace RecurringSubscriptionPlans\Database\Models;
 
-use Infixs\Model;
+use InfixsRSP\Model;
 
 class Subscription extends Model
 {
