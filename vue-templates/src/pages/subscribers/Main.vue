@@ -58,7 +58,7 @@ const columns = [
 <template>
   <div>
     <n-skeleton v-if="loading" :width="300" :sharp="false" size="large" style="margin-top: 2em"/>
-    <h1 v-if="!loading">{{ __('First Name' ) }}</h1>
+    <h1 v-if="!loading">{{ __('Subscribers' ) }}</h1>
     <n-space vertical :size="12" class="substable">
     <div v-if="loading">
       <n-grid x-gap="12" :cols="3">
